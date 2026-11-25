@@ -1,0 +1,5 @@
+/dist/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300
+/assets/*
+  Access-Control-Allow-Origin: *

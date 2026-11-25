@@ -1,0 +1,4 @@
+# Copy to .dev.vars for `npm run dev`. Never commit .dev.vars.
+ADMIN_KEY=change-me
+# TEAM_CODE=optional-shared-code
+# ADMIN_EMAILS=you@example.com,teammate@example.com

@@ -1,0 +1,246 @@
+/* Enterlabs design tokens v0.1 (UI layer on top of the logo kit v1.0)
+   Components use roles, never hex codes. Change a value here, not in a component. */
+:root {
+  /* Neutral, light. Fixed handles; never remapped. ink-2 is the brand off-white. */
+  --root-ink-1: #FBFBFA; --root-ink-2: #F5F5F4; --root-ink-3: #EDEDEC; --root-ink-4: #E5E5E4;
+  --root-ink-5: #DEDEDD; --root-ink-6: #D6D6D5; --root-ink-7: #CACAC9; --root-ink-8: #B5B5B4;
+  --root-ink-9: #8A8A89; --root-ink-10: #737372; --root-ink-11: #5C5C5B; --root-ink-12: #111111;
+  --ink-a3: color-mix(in oklab, var(--root-ink-12) 6%, transparent);
+  --ink-a4: color-mix(in oklab, var(--root-ink-12) 10%, transparent);
+
+  /* Working steps: components use these; surfaces remap 1-7. */
+  --ink-1: var(--root-ink-1); --ink-2: var(--root-ink-2); --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7); --ink-8: var(--root-ink-8); --ink-9: var(--root-ink-9);
+  --ink-10: var(--root-ink-10); --ink-11: var(--root-ink-11); --ink-12: var(--root-ink-12);
+
+  /* Brand (logo kit v1.0). Logo ink is only ever these two. */
+  --el-brand-ink: #000000;
+  --el-brand-inverse: #FFFFFF;
+  --el-surface-light: #FFFFFF;
+  --el-surface-offwhite: #F5F5F4;
+  --el-surface-charcoal: #232323;
+  --el-surface-dark: #000000;
+  --el-logo-min-width: 180px;
+
+  /* Surfaces */
+  --surface-top: #FFFFFF;
+  /* shadcn/ui theme, mapped onto the Enterlabs neutral. Buttons use these names. */
+  --background: var(--surface-top);
+  --foreground: var(--root-ink-12);
+  --primary: var(--root-ink-12);
+  --primary-foreground: var(--root-ink-1);
+  --secondary: var(--root-ink-2);
+  --secondary-foreground: var(--root-ink-12);
+  --accent: var(--root-ink-2);
+  --accent-foreground: var(--root-ink-12);
+  --muted-foreground: var(--root-ink-11);
+  --destructive: var(--red-solid);
+  --border: var(--root-ink-4);
+  --input: var(--root-ink-4);
+  --ring: var(--focus-ring);
+  --radius: var(--radius-control);
+  --shadow-xs: 0 1px 2px 0 rgb(0 0 0 / .05);
+
+  --ground: var(--root-ink-2);
+  --panel: var(--surface-top);
+  --raised: var(--surface-top);
+  --overlay: var(--surface-top);
+  --control-fill: var(--surface-top);
+  --line: var(--ink-6);
+  --hairline: 0.5px;
+  --switch-on: var(--primary);
+  --switch-off: var(--root-ink-7);
+  --focus-ring: #E8500E;      /* brand orange, darkened to keep 3:1 on white, ground and wells */
+
+  /* Primary action: black in light, white in dark. No brand accent yet. */
+  --primary-bg: var(--ink-12);
+  --primary-fg: var(--ink-1);
+  --primary-hover: color-mix(in oklab, var(--primary-bg) 93%, var(--primary-fg));
+
+  /* Brand orange: an accent, never an action. Buttons, checks, switches and tabs stay black.
+     It comes in through: the focus ring, brand badges, the one number that matters, chart series 1,
+     text selection, and orange fields on marketing pages. */
+  --brand-3: #FFEFE9; --brand-4: #FFE2D4; --brand-6: #FFC7B0;
+  --brand-9: #FF5E1F; --brand-10: #FF4801; --brand-11: #B83300;
+  --brand-text: #D63C01;      /* orange text on white, 4.66:1 */
+  --brand-contrast: #050505;  /* text on an orange field: black, 6.7:1 */
+  --brand: var(--brand-9);
+  --cream: #FFFBF5;           /* warm band on marketing pages */
+  --selection: #C82800;
+
+  /* Status hues: meaning only. Each sits at least 25 degrees (OKLCH) from brand orange,
+     so status never reads as brand: success is teal, danger is ruby. -11 passes 4.5:1 on -3.
+     The class names green / red / amber / blue are kept: green = success, red = danger. */
+  --red-3: #FEEAED; --red-6: #F8BFC8; --red-9: #E54666; --red-11: #CA244D;
+  --red-solid: #CA244D; --red-solid-hover: #B61E44; --red-contrast: #FFFFFF;
+  --green-3: #E0F8F3; --green-6: #A9DFD3; --green-9: #12A594; --green-11: #00796A;
+  --amber-3: #FFF7C2; --amber-6: #F3D673; --amber-9: #FFC53D; --amber-11: #9A5800;
+  --blue-3: #E6F4FE; --blue-6: #ACD8FC; --blue-9: #0090FF; --blue-11: #0B68BA;
+  --success-3: var(--green-3); --success-9: var(--green-9); --success-11: var(--green-11);
+  --danger-3: var(--red-3); --danger-9: var(--red-9); --danger-11: var(--red-11);
+  --warning-3: var(--amber-3); --warning-9: var(--amber-9); --warning-11: var(--amber-11);
+  --info-3: var(--blue-3); --info-9: var(--blue-9); --info-11: var(--blue-11);
+  --link: #193CB8;            /* inline links inside sentences */
+
+  /* Charts: orange leads (the series that matters), category colours follow. */
+  --chart-1: var(--brand-9); --chart-2: #0A95FF; --chart-3: #00BD7D; --chart-4: #EE0DDB; --chart-5: #0D9488;
+
+  /* Illustration: line art in grey, white and orange only. No gradients, shadows or other hues.
+     Roles point at the neutral, so they follow the theme on their own. */
+  --illo-base: var(--surface-top);        /* white ground */
+  --illo-line: var(--root-ink-9);         /* every stroke, 1.5px */
+  --illo-line-strong: var(--root-ink-12); /* the one shape in focus, if it isn't orange */
+  --illo-fill: var(--root-ink-2);         /* soft grey fill for groups */
+  --illo-grid: var(--root-ink-5);         /* faint dot grid behind diagrams */
+  --illo-label: var(--root-ink-11);       /* text labels */
+  --illo-accent: var(--brand-9);          /* orange: the point of the picture, once */
+  --illo-accent-fill: var(--brand-3);
+
+  /* Shadows: crisp. Ring + 1px drop + at most one tight drop. */
+  --shadow-ink: 17 17 17;
+  --shadow-button: 0 1px 2px 0 rgb(var(--shadow-ink) / .12), 0 0 0 1px rgb(var(--shadow-ink) / .08);
+  --shadow-primary: 0 0 0 1px var(--ink-1);
+  --shadow-toggle: var(--shadow-button);
+  --shadow-card: 0 0 0 1px rgb(var(--shadow-ink) / .07), 0 1px 2px 0 rgb(var(--shadow-ink) / .12),
+                 0 3px 4px -2px rgb(var(--shadow-ink) / .08);
+  --shadow-table: 0 1px 2px 0 rgb(var(--shadow-ink) / .12);
+  --shadow-panel: 0 0 0 0.5px var(--ink-a4), 0 1px 2px 0 rgb(var(--shadow-ink) / .015),
+                  0 3px 4px -2px rgb(var(--shadow-ink) / .025);
+  --shadow-menu: 0 0 0 1px rgb(var(--shadow-ink) / .08), 0 1px 2px 0 rgb(var(--shadow-ink) / .12),
+                 0 4px 8px -4px rgb(var(--shadow-ink) / .16);
+  --shadow-modal: 0 0 0 1px rgb(var(--shadow-ink) / .07), 0 1px 2px 0 rgb(var(--shadow-ink) / .14),
+                  0 6px 8px -4px rgb(var(--shadow-ink) / .14);
+  --shadow-badge: 0 1px 2px 0 color-mix(in srgb, currentColor 16%, transparent),
+                  0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
+  --backdrop: rgb(0 0 0 / .3);
+
+  /* Shape: set --radius-control; the rest follow. */
+  --radius-control: 6px;
+  --radius-xs: calc(var(--radius-control) / 2);
+  --radius-sm: calc(var(--radius-control) - 2px);
+  --radius-container: calc(var(--radius-control) + 2px);
+  --radius-feature: calc(var(--radius-container) * 1.5);
+  --radius-sheet: 14px;
+
+  /* Sizes */
+  --control-h: 36px; --control-h-compact: 32px; --control-h-pill: 28px;
+  --control-h-inline: 24px; --control-h-icon: 22px; --badge-h: 20px; --key-chip: 18px;
+  --row-h: 38px;
+  --switch-w: 52px; --switch-h: 26px; --switch-knob: 20px; --switch-inset: 3px;
+
+  /* Type: Inter, one weight. Hierarchy is size + ink, never bold. */
+  --font-sans: "Inter", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+  --font-weight-ui: 500;
+  --text-meta: 12px;    --leading-meta: 16px;
+  --text-body: 13px;    --leading-body: 20px;
+  --text-title: 16px;   --leading-title: 24px;
+  --text-section: 20px; --leading-section: 28px;
+  --text-figure: 24px;  --leading-figure: 32px;
+  --text-display: 32px; --leading-display: 40px;
+  --text-field: var(--text-body);
+  --tracking-label: -0.01em; --tracking-display: -0.02em;
+
+  /* Motion */
+  --dur-hover: 150ms; --dur-swap: 200ms; --dur-modal: 240ms; --dur-move: 300ms;
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-move: cubic-bezier(.22, 1, .36, 1);
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+}
+
+/* Phone and touch: values only. */
+@media screen and (width < 48rem) {
+  :root { --control-h: 44px; --row-h: 44px; --text-body: 15px; --leading-body: 24px;
+          --text-meta: 15px; --leading-meta: 20px;
+          --switch-w: 51px; --switch-h: 31px; --switch-knob: 23px; --switch-inset: 4px; }
+}
+@media (pointer: coarse) {
+  :root { --text-field: 16px; }
+}
+
+/* Dark. Colour and shadow only: never padding, height, radius or border width.
+   The ground is the brand black; ink-3 is the brand charcoal. */
+:root[data-theme="dark"] {
+  --root-ink-1: #111111; --root-ink-2: #191919; --root-ink-3: #232323; --root-ink-4: #2B2B2B;
+  --root-ink-5: #333333; --root-ink-6: #3D3D3D; --root-ink-7: #4A4A4A; --root-ink-8: #626262;
+  --root-ink-9: #737373; --root-ink-10: #868686; --root-ink-11: #B4B4B4; --root-ink-12: #EEEEEE;
+  --ink-a3: color-mix(in oklab, var(--root-ink-12) 7%, transparent);
+  --ink-a4: color-mix(in oklab, var(--root-ink-12) 11%, transparent);
+
+  --ground: #000000;
+  --background: var(--root-ink-1);
+  --foreground: var(--root-ink-12);
+  --primary: var(--root-ink-12);
+  --primary-foreground: var(--root-ink-1);
+  --secondary: var(--root-ink-3);
+  --secondary-foreground: var(--root-ink-12);
+  --accent: var(--root-ink-3);
+  --accent-foreground: var(--root-ink-12);
+  --muted-foreground: var(--root-ink-11);
+  --destructive: #E54666;
+  --border: rgb(255 255 255 / .1);
+  --input: rgb(255 255 255 / .15);
+  --ring: var(--focus-ring);
+  --panel: var(--root-ink-1);
+  --raised: var(--root-ink-2);
+  --overlay: var(--root-ink-2);
+  --control-fill: var(--root-ink-3);
+  --line: var(--ink-5);
+  --switch-off: #343434;
+
+  --brand-3: #391A0F; --brand-4: #4A2112; --brand-6: #6B2A12;
+  --brand-9: #FF5E1F; --brand-10: #FF7038; --brand-11: #FF8A5C;
+  --brand-text: #FF7038;
+  --focus-ring: #FF7038;
+  --link: #7DA2FF;
+  --chart-1: #FF7038; --chart-2: #3AAEFF; --chart-3: #2BD69A; --chart-4: #F24DE6; --chart-5: #2BB3A3;
+  --illo-base: var(--root-ink-1);
+
+  --red-3: #3A141E; --red-6: #6F2539; --red-9: #E54666; --red-11: #FF949D;
+  --red-solid: #CA244D; --red-solid-hover: #D63A5E;
+  --green-3: #0D2D2A; --green-6: #1C4F4A; --green-9: #12A594; --green-11: #0BD8B6;
+  --amber-3: #302008; --amber-6: #5C3D05; --amber-9: #FFC53D; --amber-11: #FFCA16;
+  --blue-3: #0D2847; --blue-6: #104D87; --blue-9: #0090FF; --blue-11: #70B8FF;
+
+  --shadow-button: 0 0 0 0.5px var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-toggle: var(--shadow-button);
+  --shadow-primary: 0 0 0 0.5px var(--primary-bg), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-card: 0 0 0 0.5px var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+  --shadow-table: 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-panel: 0 0 0 0.5px var(--ink-a3), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+  --shadow-menu: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 4px 8px -4px rgb(0 0 0 / .5);
+  --shadow-popover: var(--shadow-menu);
+  --shadow-modal: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 6px 8px -4px rgb(0 0 0 / .5);
+  --shadow-badge: 0 0 0 0.5px color-mix(in srgb, currentColor 34%, #000), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --backdrop: rgb(0 0 0 / .9);
+}
+
+/* Surfaces. Light: remap steps 1-7 so children keep contrast against their ground. */
+:root:not([data-theme="dark"]) :is(.surface-rail, .surface-panel, .surface-overlay, .surface-raised, .surface-sunk) {
+  --line: var(--ink-6); --shadow-primary: 0 0 0 1px var(--ink-1); }
+:root:not([data-theme="dark"]) :is(.surface-rail, .surface-sunk) {
+  --ink-1: var(--root-ink-2); --ink-2: var(--root-ink-3); --ink-3: var(--root-ink-4);
+  --ink-4: var(--root-ink-5); --ink-5: var(--root-ink-6); --ink-6: var(--root-ink-7);
+  --ink-7: var(--root-ink-8); }
+:root:not([data-theme="dark"]) .surface-panel { --ink-1: var(--surface-top); }
+:root:not([data-theme="dark"]) .surface-overlay {
+  --ink-1: var(--surface-top); --ink-2: var(--surface-top); --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7); }
+:root:not([data-theme="dark"]) .surface-raised {
+  --ink-1: var(--root-ink-1); --ink-2: var(--root-ink-2); --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7); }
+
+/* Dark: steps stay root; each surface redeclares the control fill and its outline,
+   three steps above the fill. */
+:root[data-theme="dark"] :is(.surface-panel, .surface-sunk, .surface-rail) {
+  --control-fill: var(--root-ink-3);
+  --shadow-button: 0 0 0 0.5px var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-toggle: var(--shadow-button); }
+:root[data-theme="dark"] :is(.surface-raised, .surface-overlay) {
+  --control-fill: var(--root-ink-4);
+  --shadow-button: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-toggle: var(--shadow-button); }

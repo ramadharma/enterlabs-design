@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enterlabs design system</title>
+<link rel="icon" type="image/svg+xml" href="[[favicon]]">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+<script>
+  /* Theme before paint: follow the system until the reader picks one. */
+  (function () {
+    var t = 'light';
+    try { t = localStorage.getItem('el-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch (e) {}
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<style>
+[[tokens]]
+
+/* ---------- Page ---------- */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0; background: var(--ground); color: var(--ink-12);
+  font-family: var(--font-sans); font-weight: var(--font-weight-ui);
+  font-size: var(--text-body); line-height: var(--leading-body);
+  font-feature-settings: "cv11";
+}
+h1, h2, h3, h4, p, ul, ol, figure { margin: 0; }
+h1, h2, h3, h4, b, strong, th { font-weight: var(--font-weight-ui); }
+p, li { text-wrap: pretty; }
+ul { padding: 0; list-style: none; }
+code, .mono { font-family: var(--font-mono); font-size: 0.92em; }
+a { color: inherit; }
+svg { display: block; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+:root[data-theme="dark"] { color-scheme: dark; }
+.logo { color: var(--el-brand-ink); }
+:root[data-theme="dark"] .logo { color: var(--el-brand-inverse); }
+
+/* Shell */
+.shell { display: grid; grid-template-columns: 232px minmax(0, 1fr); min-height: 100vh; }
+.rail { position: sticky; top: 0; height: 100vh; overflow-y: auto; padding: 24px 12px 24px; background: var(--ground); scrollbar-width: none; }
+.rail::-webkit-scrollbar { display: none; }
+.rail-brand { padding: 0 8px 4px; }
+.rail-brand svg { width: 180px; height: auto; }
+.rail-version { padding: 12px 8px 0; color: var(--ink-11); }
+.nav-group { padding: 20px 8px 4px; color: var(--ink-10); font-size: var(--text-meta); line-height: var(--leading-meta); }
+.nav a {
+  display: flex; align-items: center; height: 32px; padding: 0 8px; border-radius: var(--radius-control);
+  color: var(--ink-11); text-decoration: none; transition: background-color var(--dur-hover) var(--ease-out), color var(--dur-hover) var(--ease-out);
+}
+.nav a[aria-current="true"] { background: var(--ink-3); color: var(--ink-12); }
+:root[data-theme="dark"] .nav a[aria-current="true"] { background: var(--root-ink-2); }
+.nav a:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: -2px; }
+
+.panel { margin: 8px 8px 8px 0; border-radius: var(--radius-container); background: var(--panel); box-shadow: var(--shadow-panel); min-width: 0; }
+.strip {
+  position: sticky; top: 0; z-index: 20; height: 52px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 12px;
+  padding: 0 12px 0 16px; background: var(--panel); border-radius: var(--radius-container) var(--radius-container) 0 0;
+  box-shadow: 0 var(--hairline) 0 0 var(--line);
+}
+.strip-title { color: var(--ink-12); }
+.strip-end { justify-self: end; }
+.strip-start { justify-self: start; display: flex; align-items: center; gap: 8px; }
+.jump-wrap { display: none; }
+.strip-start { min-width: 0; }
+.jump-wrap select { width: 100%; text-align: left; }
+
+.col { max-width: 800px; margin: 0 auto; padding: 48px 32px 64px; }
+section { padding: 32px 0; scroll-margin-top: 60px; }
+.display { font-size: var(--text-display); line-height: var(--leading-display); letter-spacing: var(--tracking-display); color: var(--ink-12); }
+.display .lead { color: var(--ink-11); }
+.section-title { font-size: var(--text-section); line-height: var(--leading-section); color: var(--ink-12); }
+.desc { margin-top: 6px; color: var(--ink-11); max-width: 62ch; }
+.body { margin-top: 24px; }
+.sub + .sub { margin-top: 40px; }
+.sub-title { font-size: var(--text-title); line-height: var(--leading-title); color: var(--ink-12); }
+.sub-desc { margin-top: 4px; color: var(--ink-11); max-width: 62ch; }
+.sub-body { margin-top: 16px; }
+.meta { font-size: var(--text-meta); line-height: var(--leading-meta); color: var(--ink-10); }
+.ink-11 { color: var(--ink-11); } .ink-10 { color: var(--ink-10); }
+
+.rules { display: grid; gap: 6px; margin-top: 16px; color: var(--ink-11); }
+.rules li { position: relative; padding-left: 16px; }
+.rules li::before { content: ""; position: absolute; left: 2px; top: 8px; width: 4px; height: 4px; border-radius: 50%; background: var(--ink-9); }
+.rules b { color: var(--ink-12); }
+
+.grid-2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.stack { display: grid; gap: 16px; }
+
+/* Stage: a sunk area that holds live specimens. */
+.stage { --stage-bg: var(--ink-1); background: var(--stage-bg); border-radius: var(--radius-container); padding: 24px; }
+:root[data-theme="dark"] .stage { --stage-bg: var(--ground); box-shadow: inset 0 0 0 var(--hairline) var(--ink-a4); }
+.stage-label { margin-bottom: 12px; }
+
+/* Plain rows */
+.rows > div { display: grid; grid-template-columns: 200px minmax(0, 1fr); gap: 16px; padding: 12px 0; box-shadow: 0 calc(var(--hairline) * -1) 0 0 var(--line); }
+.rows > div:first-child { box-shadow: none; padding-top: 0; }
+.rows dt, .rows .k { color: var(--ink-12); }
+.rows .v { color: var(--ink-11); }
+
+/* Callout */
+.callout { margin-top: 24px; padding: 14px 16px; border-radius: var(--radius-container); background: var(--ink-2); }
+:root[data-theme="dark"] .callout { background: var(--root-ink-2); }
+.callout-title { color: var(--ink-12); }
+.callout p + p { margin-top: 2px; }
+.callout .ink-11 { max-width: 64ch; }
+
+/* Figures */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 32px; }
+.figure-n { font-size: var(--text-figure); line-height: var(--leading-figure); color: var(--ink-12); font-variant-numeric: tabular-nums; }
+.figure-l { color: var(--ink-10); }
+
+/* ---------- Controls ---------- */
+@media (hover: hover) and (pointer: fine) {
+  .nav a:hover:not([aria-current="true"]) { background: var(--ink-2); color: var(--ink-12); }
+  :root[data-theme="dark"] .nav a:hover:not([aria-current="true"]) { background: var(--root-ink-1); }
+}
+.spinner { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid currentColor; border-top-color: transparent; animation: spin 700ms linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Copy chip */
+.chip {
+  appearance: none; border: 0; display: inline-flex; align-items: center; gap: 6px; height: var(--control-h-inline); padding: 0 8px;
+  border-radius: var(--radius-control); background: var(--ink-3); color: var(--ink-11); cursor: pointer;
+  font-family: var(--font-mono); font-size: 12px; line-height: 16px; max-width: 100%;
+  transition: background-color var(--dur-hover) var(--ease-out), transform var(--dur-hover) var(--ease-out);
+}
+.chip span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chip svg { width: 14px; height: 14px; flex: none; color: var(--ink-9); }
+.chip.done svg { color: var(--ink-12); }
+.chip:active { transform: scale(.96); }
+.chip:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) { .chip:hover { background: var(--ink-4); } }
+
+/* Fields */
+.field { display: grid; gap: 6px; }
+.field label { color: var(--ink-12); }
+.field .opt { color: var(--ink-10); }
+.input {
+  appearance: none; width: 100%; height: var(--control-h); border: 0; border-radius: var(--radius-control);
+  background: var(--ink-3); padding: 0 12px; font: inherit; font-size: var(--text-field); color: var(--ink-12); outline: none;
+  transition: background-color var(--dur-hover) var(--ease-out), box-shadow var(--dur-hover) var(--ease-out);
+}
+.input::placeholder { color: var(--ink-10); }
+.input:focus { background: var(--ink-4); }
+.input:focus-visible { box-shadow: 0 0 0 2px var(--focus-ring); }
+.input[aria-invalid="true"] { box-shadow: 0 0 0 1px var(--red-11); }
+.input[aria-invalid="true"]:focus-visible { box-shadow: 0 0 0 1px var(--red-11), 0 0 0 3px color-mix(in srgb, var(--red-11) 30%, transparent); }
+.select-wrap { position: relative; }
+.select-wrap svg { position: absolute; right: 10px; top: 50%; width: 16px; height: 16px; margin-top: -8px; color: var(--ink-10); pointer-events: none; }
+.select-wrap .input { padding-right: 32px; cursor: pointer; }
+.hint { font-size: var(--text-meta); line-height: var(--leading-meta); color: var(--ink-10); }
+.err { font-size: var(--text-meta); line-height: var(--leading-meta); color: var(--red-11); }
+
+/* Segmented toggle */
+.seg { --seg-track: var(--ink-3); position: relative; display: inline-grid; grid-auto-flow: column; grid-auto-columns: 1fr; padding: 4px; height: 36px; border-radius: 10px; background: var(--seg-track); }
+:root[data-theme="dark"] .seg { --seg-track: var(--root-ink-2); --control-fill: var(--root-ink-4); --shadow-toggle: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5); }
+.seg button {
+  position: relative; z-index: 1; height: 28px; padding: 0 12px; border: 0; border-radius: var(--radius-control); background: none;
+  font: inherit; letter-spacing: var(--tracking-label); color: var(--ink-11); cursor: pointer; transition: color var(--dur-hover) var(--ease-out);
+}
+.seg button[aria-pressed="true"] { color: var(--ink-12); }
+.seg button:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 0; }
+.seg .thumb { position: absolute; z-index: 0; top: 4px; left: 0; height: 28px; width: 0; border-radius: var(--radius-control); background: var(--control-fill); box-shadow: var(--shadow-toggle); transition: transform 400ms cubic-bezier(.3, 1.12, .5, 1), width 400ms cubic-bezier(.3, 1.12, .5, 1); }
+.seg.no-anim .thumb { transition: none; }
+.stack > .seg { justify-self: start; }
+.seg-sm { height: 32px; padding: 3px; border-radius: 9px; }
+.seg-sm button, .seg-sm .thumb { height: 26px; }
+.seg-sm .thumb { top: 3px; }
+
+/* Switch */
+.switch-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 12px 16px; border-radius: var(--radius-container); background: var(--raised); box-shadow: var(--shadow-card); max-width: 360px; }
+.switch { position: relative; flex: none; width: 36px; height: var(--control-h-icon); padding: 0; border: 0; border-radius: 999px; background: var(--ink-6); cursor: pointer; transition: background-color var(--dur-hover) var(--ease-out); }
+.switch::after { content: ""; position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%; background: #FFFFFF; box-shadow: 0 1px 2px 0 rgb(0 0 0 / .2), 0 0 0 0.5px rgb(0 0 0 / .06); transition: transform 450ms cubic-bezier(.3, 1.1, .5, 1), background-color var(--dur-hover) var(--ease-out); }
+.switch[aria-checked="true"] { background: var(--primary-bg); }
+.switch[aria-checked="true"]::after { transform: translateX(14px); }
+:root[data-theme="dark"] .switch[aria-checked="true"]::after { background: var(--primary-fg); }
+.switch:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+
+/* Badges */
+.badge { display: inline-flex; align-items: center; gap: 6px; height: var(--badge-h); padding: 0 8px; border-radius: 999px; font-size: 12px; line-height: 20px; white-space: nowrap; box-shadow: var(--shadow-badge); }
+.badge .dot { width: 6px; height: 6px; }
+.badge.green { background: var(--green-3); color: var(--green-11); }
+.badge.red { background: var(--red-3); color: var(--red-11); }
+.badge.amber { background: var(--amber-3); color: var(--amber-11); }
+.badge.blue { background: var(--blue-3); color: var(--blue-11); }
+.badge.neutral { background: var(--control-fill); color: var(--ink-11); box-shadow: var(--shadow-button); }
+.dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex: none; }
+
+/* Card */
+.card { background: var(--raised); border-radius: var(--radius-container); box-shadow: var(--shadow-card); padding: 20px; }
+.card-title { font-size: var(--text-title); line-height: var(--leading-title); color: var(--ink-12); }
+.card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+
+/* Table */
+.table-wrap { border-radius: var(--radius-container); background: var(--raised); box-shadow: 0 0 0 var(--hairline) var(--line), var(--shadow-table); overflow-x: auto; }
+.tbl { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.tbl th, .tbl td { height: var(--row-h); padding: 0 14px; text-align: left; vertical-align: middle; white-space: nowrap; box-shadow: inset calc(var(--hairline) * -1) calc(var(--hairline) * -1) 0 0 var(--line); }
+.tbl tr > :last-child { box-shadow: inset 0 calc(var(--hairline) * -1) 0 0 var(--line); }
+.tbl tbody tr:last-child > * { box-shadow: inset calc(var(--hairline) * -1) 0 0 0 var(--line); }
+.tbl tbody tr:last-child > :last-child { box-shadow: none; }
+.tbl th { color: var(--ink-12); }
+.tbl td { color: var(--ink-10); }
+.tbl td:first-child { color: var(--ink-12); }
+.tbl td.wrap, .tbl th.wrap { white-space: normal; padding-top: 9px; padding-bottom: 9px; }
+.tbl .status { display: inline-flex; align-items: center; gap: 8px; color: var(--ink-11); }
+.tbl .status.green .dot { color: var(--green-9); } .tbl .status.amber .dot { color: var(--amber-9); }
+.tbl .status.red .dot { color: var(--red-9); } .tbl .status.neutral .dot { color: var(--ink-8); }
+.doc-tbl td { color: var(--ink-11); }
+.doc-tbl td:first-child { color: var(--ink-12); }
+
+/* Menu */
+.menu-anchor { position: relative; display: inline-block; }
+.menu-trigger .chev { transition: transform var(--dur-swap) var(--ease-out); }
+.menu-trigger[aria-expanded="true"] .chev { transform: rotate(180deg); }
+.menu {
+  --menu-hover: var(--root-ink-2); --menu-chosen: var(--root-ink-3);
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 100; min-width: 200px; padding: 4px; display: grid; gap: 2px;
+  background: var(--overlay); border-radius: var(--radius-container); box-shadow: var(--shadow-menu);
+  transform-origin: top left; opacity: 0; transform: scale(.97); pointer-events: none; visibility: hidden;
+  transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out), visibility 0s linear 120ms;
+}
+:root[data-theme="dark"] .menu { --menu-hover: var(--root-ink-3); --menu-chosen: var(--root-ink-4); }
+.menu.open { opacity: 1; transform: none; pointer-events: auto; visibility: visible; transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out), visibility 0s; }
+.menu button { height: 36px; padding: 0 10px; border: 0; border-radius: var(--radius-control); background: none; text-align: left; font: inherit; color: var(--ink-11); cursor: pointer; transition: background-color var(--dur-hover) var(--ease-out); }
+.menu button:focus-visible, .menu button.hi { background: var(--menu-hover); color: var(--ink-12); outline: none; }
+.menu button[aria-checked="true"] { background: var(--menu-chosen); color: var(--ink-12); }
+@media (hover: hover) and (pointer: fine) { .menu button:hover:not([aria-checked="true"]) { background: var(--menu-hover); color: var(--ink-12); } }
+
+/* Dialog preview */
+.backdrop-stage { background: linear-gradient(var(--backdrop), var(--backdrop)), var(--stage-bg); display: grid; place-items: center; padding: 40px 24px; }
+.dialog { width: min(460px, 100%); background: var(--overlay); border-radius: var(--radius-container); box-shadow: var(--shadow-modal); }
+.dialog-head { padding: 20px 20px 16px; }
+.dialog-title { font-size: var(--text-title); line-height: var(--leading-title); color: var(--ink-12); }
+.dialog-foot { display: flex; justify-content: space-between; gap: 8px; padding: 12px; box-shadow: 0 calc(var(--hairline) * -1) 0 0 var(--line); }
+
+/* Toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(24px + env(safe-area-inset-bottom)); z-index: 120; display: flex; align-items: center; gap: 8px;
+  height: 36px; padding: 0 14px; border-radius: 999px; background: var(--green-3); color: var(--green-11); box-shadow: var(--shadow-badge);
+  opacity: 0; transform: translate(-50%, 8px); pointer-events: none;
+  transition: opacity 150ms var(--ease-out), transform 150ms var(--ease-out);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); transition-duration: 200ms; }
+.toast svg { width: 16px; height: 16px; }
+
+/* Empty */
+.empty { display: grid; justify-items: center; align-content: center; gap: 2px; padding: 40px 24px; border-radius: var(--radius-container); background: var(--ink-2); text-align: center; }
+:root[data-theme="dark"] .empty { background: var(--root-ink-2); }
+.empty svg { width: 18px; height: 18px; color: var(--ink-9); margin-bottom: 8px; }
+.empty p { color: var(--ink-11); }
+.empty p:first-of-type { color: var(--ink-12); }
+.empty .btn { margin-top: 12px; }
+
+/* Code */
+.code { position: relative; border-radius: var(--radius-container); background: var(--ink-2); }
+:root[data-theme="dark"] .code { background: var(--root-ink-2); box-shadow: inset 0 0 0 var(--hairline) var(--ink-a4); }
+.code pre { margin: 0; padding: 16px 16px; overflow: auto; font-family: var(--font-mono); font-size: 12px; line-height: 18px; color: var(--ink-11); tab-size: 2; }
+.code.tall pre { max-height: 520px; }
+.code > .btn { position: absolute; top: 8px; right: 8px; }
+
+/* ---------- Brand specimens ---------- */
+.logo-card { border-radius: var(--radius-container); background: var(--raised); box-shadow: var(--shadow-card); overflow: hidden; }
+.halves { display: grid; grid-template-columns: 1fr 1fr; }
+.half { display: grid; place-items: center; height: 168px; padding: 24px; }
+.half.on-light { background: var(--el-surface-light); color: var(--el-brand-ink); }
+.half.on-dark { background: var(--el-surface-dark); color: var(--el-brand-inverse); }
+:root:not([data-theme="dark"]) .half.on-light { box-shadow: inset 0 calc(var(--hairline) * -1) 0 0 var(--root-ink-5); }
+.logo-meta { display: grid; gap: 4px; padding: 14px 16px 16px; }
+.logo-meta .name { display: flex; align-items: center; gap: 8px; color: var(--ink-12); }
+.logo-meta .use { color: var(--ink-11); }
+.logo-meta .paths { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.wide .half { height: 200px; }
+.grid-2 .halves { grid-template-columns: 1fr; }
+.grid-2 .half { height: 128px; }
+.grid-2 .lg-stacked svg { height: 88px; }
+.lg-horizontal svg { width: 260px; height: auto; }
+.lg-stacked svg { height: 104px; width: auto; }
+.lg-wordmark svg { width: 200px; height: auto; }
+.lg-symbol svg { height: 72px; width: auto; }
+.lg-micro svg { height: 48px; width: auto; }
+
+.clear-demo { display: flex; justify-content: center; padding: 40px 24px; }
+.clear-outer { position: relative; padding: 20px; background: repeating-linear-gradient(-45deg, var(--hatch) 0 1px, transparent 1px 6px); box-shadow: inset 0 0 0 var(--hairline) var(--ink-8); --hatch: var(--ink-7); }
+.clear-inner { background: var(--stage-bg); box-shadow: 0 0 0 var(--hairline) var(--ink-8); }
+.clear-inner svg { width: 400px; max-width: 100%; height: auto; }
+.clear-x { position: absolute; left: 0; top: 0; width: 20px; height: 20px; display: grid; place-items: center; font-size: 12px; line-height: 16px; color: var(--ink-11); }
+.clear-x.br { left: auto; top: auto; right: 0; bottom: 0; }
+
+.min-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 40px; }
+.min-item { display: grid; gap: 12px; justify-items: start; }
+.min-item .meta { color: var(--ink-11); }
+
+.bg-tile { display: grid; place-items: center; height: 136px; border-radius: var(--radius-container); }
+.bg-tile svg { width: 200px; height: auto; }
+.bg-cap { display: flex; justify-content: space-between; gap: 8px; margin-top: 8px; }
+.ring-light { box-shadow: inset 0 0 0 var(--hairline) rgb(0 0 0 / .12); }
+
+.misuse { border-radius: var(--radius-container); overflow: hidden; background: var(--raised); box-shadow: var(--shadow-card); }
+.misuse .art { display: grid; place-items: center; height: 120px; background: #FFFFFF; color: #000000; overflow: hidden; }
+:root:not([data-theme="dark"]) .misuse .art { box-shadow: inset 0 calc(var(--hairline) * -1) 0 0 var(--root-ink-5); }
+.misuse .art svg { width: 180px; height: auto; }
+.misuse .cap { display: grid; gap: 6px; justify-items: start; padding: 12px 14px 14px; color: var(--ink-11); }
+.typed { display: flex; align-items: center; gap: 10px; font-family: "Inter", sans-serif; font-size: 30px; line-height: 1; letter-spacing: -0.01em; }
+.typed svg { width: 40px !important; }
+.typed b { font-weight: 700; } .typed i { font-style: normal; font-weight: 300; }
+
+.icon-tiles { display: flex; flex-wrap: wrap; gap: 24px; align-items: flex-end; }
+.icon-tile { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.app-icon { width: 88px; height: 88px; border-radius: 20px; overflow: hidden; box-shadow: 0 0 0 var(--hairline) rgb(0 0 0 / .14), 0 1px 2px 0 rgb(var(--shadow-ink) / .12); }
+:root[data-theme="dark"] .app-icon { box-shadow: 0 0 0 var(--hairline) var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5); }
+.app-icon svg, .app-icon img { width: 100%; height: 100%; }
+.avatar { border-radius: 50%; }
+.tab-mock { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 14px; min-width: 200px; border-radius: 8px 8px 0 0; background: #FFFFFF; color: #111111; font-size: 12px; box-shadow: 0 0 0 var(--hairline) rgb(0 0 0 / .12); }
+.tab-mock.dark { background: #232323; color: #EEEEEE; }
+.tab-mock svg { width: 16px; height: 16px; }
+.fav-sizes { display: flex; align-items: flex-end; gap: 20px; }
+.fav-sizes .s { display: grid; gap: 8px; justify-items: center; }
+
+/* Colour */
+.swatch-chip { height: 72px; border-radius: var(--radius-container); box-shadow: inset 0 0 0 var(--hairline) rgb(0 0 0 / .12); }
+:root[data-theme="dark"] .swatch-chip { box-shadow: inset 0 0 0 var(--hairline) rgb(255 255 255 / .12); }
+.swatch { display: grid; gap: 8px; align-content: start; justify-items: start; }
+.swatch .swatch-chip { width: 100%; }
+.swatch .nm { color: var(--ink-12); }
+.swatch .rl { color: var(--ink-11); margin-top: -6px; }
+.scale { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 6px; }
+.scale .st { display: grid; gap: 6px; }
+.scale .c { height: 48px; border-radius: var(--radius-control); box-shadow: inset 0 0 0 var(--hairline) rgb(0 0 0 / .1); cursor: pointer; border: 0; padding: 0; transition: transform var(--dur-hover) var(--ease-out); }
+.scale.dark-scale .c { box-shadow: inset 0 0 0 var(--hairline) rgb(255 255 255 / .1); }
+.scale .c:active { transform: scale(.94); }
+.scale .c:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.scale .n { color: var(--ink-12); font-size: 12px; line-height: 16px; }
+.scale .h { color: var(--ink-10); font-family: var(--font-mono); font-size: 11px; line-height: 16px; overflow: hidden; text-overflow: clip; white-space: nowrap; }
+.scale .c.done { outline: 2px solid var(--ink-12); outline-offset: 2px; }
+.scale-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
+.pass { color: var(--green-11); } .fail { color: var(--amber-11); }
+
+/* Type */
+.type-rows > div { display: grid; grid-template-columns: 168px minmax(0, 1fr); gap: 16px; align-items: baseline; padding: 16px 0; box-shadow: 0 calc(var(--hairline) * -1) 0 0 var(--line); }
+.type-rows > div:first-child { box-shadow: none; padding-top: 0; }
+.type-rows .spec { display: grid; gap: 2px; }
+.type-rows .spec .k { color: var(--ink-12); }
+.type-sample { color: var(--ink-12); min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.specimen { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.specimen .aa { font-size: 96px; line-height: 96px; letter-spacing: -0.03em; color: var(--ink-12); }
+.specimen .glyphs { color: var(--ink-11); max-width: 40ch; }
+.weights { display: grid; gap: 4px; }
+
+/* Spacing */
+.ladder { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; }
+.ladder .s { display: grid; gap: 8px; justify-items: center; }
+.ladder .sq { background: var(--ink-12); border-radius: 1px; }
+.heights { display: flex; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.heights .h { display: grid; gap: 8px; justify-items: center; }
+.heights .bx { width: 56px; border-radius: var(--radius-control); background: var(--control-fill); box-shadow: var(--shadow-button); }
+
+/* Shape and elevation */
+.radii { display: flex; gap: 16px; flex-wrap: wrap; }
+.radii .r { display: grid; gap: 8px; justify-items: center; text-align: center; }
+.radii .bx { width: 72px; height: 56px; background: var(--ink-3); }
+.elev { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.elev .e { display: grid; gap: 10px; justify-items: center; text-align: center; }
+.elev .obj { width: 100%; max-width: 112px; height: 64px; background: var(--raised); border-radius: var(--radius-container); }
+
+/* Motion */
+.curve-card { display: grid; grid-template-columns: 176px minmax(0, 1fr); gap: 24px; align-items: center; }
+.curve { width: 176px; height: 176px; color: var(--ink-12); }
+.curve .grid { stroke: var(--line); stroke-width: .5; }
+.track { position: relative; height: 40px; border-radius: var(--radius-control); background: var(--ink-3); margin-top: 16px; }
+.track .puck { position: absolute; top: 6px; left: 6px; width: 28px; height: 28px; border-radius: var(--radius-control); background: var(--control-fill); box-shadow: var(--shadow-button); transition: transform var(--dur-move) var(--ease-out), opacity var(--dur-swap) var(--ease-out); }
+.track.go .puck { transform: translateX(calc(var(--travel, 240px))); }
+
+/* Layout */
+.cols { display: grid; gap: 8px; }
+.cols .bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 36px; padding: 0 12px; border-radius: var(--radius-control); background: var(--ink-3); color: var(--ink-11); }
+.cols .bar b { color: var(--ink-12); }
+.rhythm { display: grid; max-width: 480px; }
+.rr { display: grid; grid-template-columns: minmax(0, 1fr) 32px; gap: 12px; align-items: center; }
+.rr > span { font-family: var(--font-mono); font-size: 12px; line-height: 16px; color: var(--ink-10); }
+.rhythm .blk { border-radius: var(--radius-sm); background: var(--ink-3); color: var(--ink-11); display: flex; align-items: center; padding: 0 10px; font-size: 12px; line-height: 16px; }
+.rhythm .sp { background: repeating-linear-gradient(-45deg, var(--ink-7) 0 1px, transparent 1px 5px); }
+
+/* Checklist */
+.checklist { display: grid; gap: 0; }
+.checklist li { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 12px; padding: 10px 0; color: var(--ink-11); box-shadow: 0 calc(var(--hairline) * -1) 0 0 var(--line); }
+.checklist li:first-child { box-shadow: none; padding-top: 0; }
+.checklist li::before { content: ""; width: 14px; height: 14px; margin-top: 3px; border-radius: var(--radius-sm); box-shadow: inset 0 0 0 1.5px var(--ink-8); }
+
+.foot { padding-top: 32px; margin-top: 16px; box-shadow: 0 calc(var(--hairline) * -1) 0 0 var(--line); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* ---------- Phone ---------- */
+@media screen and (width < 48rem) {
+  .shell { display: block; }
+  .rail { display: none; }
+  .panel { margin: 0; border-radius: 0; box-shadow: none; min-height: 100vh; }
+  .strip { grid-template-columns: minmax(0, 1fr) auto; border-radius: 0; padding: 0 20px; height: 56px; }
+  .strip-title { display: none; }
+  .jump-wrap { display: block; flex: 1; min-width: 0; }
+  .strip-start .rail-mark { display: block; }
+  .col { padding: 32px 20px 48px; }
+  .grid-2, .grid-3, .grid-4, .figures { grid-template-columns: minmax(0, 1fr); }
+  .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .rows > div, .type-rows > div, .curve-card { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .halves { grid-template-columns: 1fr; }
+  .half, .wide .half { height: 140px; }
+  .lg-horizontal svg { width: 220px; }
+  .scale { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 12px; }
+  .scale .h { font-size: 12px; }
+  .elev { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .display { font-size: 24px; line-height: 32px; }
+  .specimen .aa { font-size: 72px; line-height: 72px; }
+  .stage { padding: 16px; }
+  .chip { position: relative; }
+  .chip::after { content: ""; position: absolute; inset: -8px; }
+  .switch { width: 51px; height: 31px; }
+  .switch::after { top: 4px; left: 4px; width: 23px; height: 23px; }
+  .switch[aria-checked="true"]::after { transform: translateX(20px); }
+  .badge { height: 22px; font-size: 14px; line-height: 22px; }
+  .seg { height: 42px; } .seg button, .seg .thumb { height: 34px; }
+  .chip { height: 32px; font-size: 13px; }
+  .tbl th, .tbl td { font-size: 15px; }
+  .clear-inner svg { width: 240px; }
+  .clear-outer { padding: 12px; } .clear-x { width: 12px; height: 12px; font-size: 10px; }
+}
+.rail-mark { display: none; color: var(--el-brand-ink); }
+:root[data-theme="dark"] .rail-mark { color: var(--el-brand-inverse); }
+.rail-mark svg { height: 22px; width: auto; }
+.min-item > div[style*="width"] svg { width: 100%; height: auto; }
+.min-item > div[style*="height"] svg, .fav-sizes div svg { height: 100%; width: auto; }
+.typed svg { height: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .chip:active, .scale .c:active { transform: none; }
+  .seg .thumb, .switch::after { transition: none; }
+  .menu, .menu.open { transform: none; }
+  .toast, .toast.show { transform: translate(-50%, 0); }
+  .track .puck { transition: opacity var(--dur-swap) var(--ease-out); }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 10l5 5 5-5"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 5.5v13M5.5 12h13"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4.5v10.5M7.5 10.5l4.5 4.5 4.5-4.5M5.5 19.5h13"/></symbol>
+  <symbol id="i-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 13.5l2.4-6.6A2 2 0 0 1 8.8 5.5h6.4a2 2 0 0 1 1.9 1.4l2.4 6.6V17a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2z"/><path d="M4.5 13.5h4l1.5 2h4l1.5-2h4"/></symbol>
+  <symbol id="i-return" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 6.5v5a2 2 0 0 1-2 2H6.5"/><path d="M9.5 10.5l-3 3 3 3"/></symbol>
+</svg>
+
+<div class="shell">
+  <aside class="rail surface-rail" aria-label="Contents">
+    <div class="rail-brand logo">[[svg:horizontal]]</div>
+    <p class="rail-version meta">Design system v0.1</p>
+    <nav class="nav" id="nav">
+      <p class="nav-group">Start</p>
+      <a href="#overview">Overview</a>
+      <a href="#principles">Principles</a>
+      <p class="nav-group">Brand</p>
+      <a href="#logo">Logo</a>
+      <a href="#icons">App icons and favicon</a>
+      <a href="#colour">Colour</a>
+      <p class="nav-group">Foundations</p>
+      <a href="#type">Typography</a>
+      <a href="#spacing">Spacing and sizes</a>
+      <a href="#shape">Shape and elevation</a>
+      <p class="nav-group">Interface</p>
+      <a href="#components">Components</a>
+      <a href="#motion">Motion</a>
+      <a href="#layout">Layout</a>
+      <p class="nav-group">Reference</p>
+      <a href="#tokens">Tokens</a>
+      <a href="#checklist">Before you ship</a>
+    </nav>
+  </aside>
+
+  <main class="panel surface-panel">
+    <header class="strip">
+      <div class="strip-start">
+        <span class="rail-mark">[[svg:symbol]]</span>
+        <div class="jump-wrap select-wrap">
+          <label class="sr-only" for="jump">Jump to section</label>
+          <select id="jump" class="btn btn-outline" style="padding-right:32px;appearance:none;-webkit-appearance:none">
+            <option value="overview">Overview</option>
+            <option value="principles">Principles</option>
+            <option value="logo">Logo</option>
+            <option value="icons">App icons and favicon</option>
+            <option value="colour">Colour</option>
+            <option value="type">Typography</option>
+            <option value="spacing">Spacing and sizes</option>
+            <option value="shape">Shape and elevation</option>
+            <option value="components">Components</option>
+            <option value="motion">Motion</option>
+            <option value="layout">Layout</option>
+            <option value="tokens">Tokens</option>
+            <option value="checklist">Before you ship</option>
+          </select>
+          <svg><use href="#i-chev"/></svg>
+        </div>
+      </div>
+      <p class="strip-title">Enterlabs design system</p>
+      <div class="strip-end">
+        <div class="seg seg-sm" id="theme-seg" role="group" aria-label="Theme">
+          <span class="thumb" aria-hidden="true"></span>
+          <button type="button" data-v="light" aria-pressed="false">Light</button>
+          <button type="button" data-v="dark" aria-pressed="false">Dark</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="col">
+
+<!-- ================= OVERVIEW ================= -->
+<section id="overview" style="padding-top:0">
+  <h1 class="display"><span class="lead">Enterlabs</span> design system</h1>
+  <p class="desc">One reference for the Enterlabs logo, colour, type, surfaces, components and motion. Every specimen on this page is built from the tokens at the end, so what you see is what ships, in light and dark.</p>
+
+  <div class="figures" aria-label="At a glance">
+    <div><p class="figure-n">5</p><p class="figure-l">Logo compositions</p></div>
+    <div><p class="figure-n text-brand">1</p><p class="figure-l">Brand colour: orange</p></div>
+    <div><p class="figure-n">12</p><p class="figure-l">Neutral steps per theme</p></div>
+    <div><p class="figure-n">1</p><p class="figure-l">Typeface, one weight</p></div>
+  </div>
+
+  <div class="callout">
+    <p class="callout-title">What is settled and what is not</p>
+    <p class="ink-11">The logo kit v1.0 is approved and its artwork is fixed. The interface layer (v0.3) builds on it. Black is the action colour. Orange is the brand colour: a small accent for focus, brand badges and the number that matters, never a button or a control. Other hues only mean status.</p>
+  </div>
+</section>
+
+<!-- ================= PRINCIPLES ================= -->
+<section id="principles">
+  <h2 class="section-title">Principles</h2>
+  <p class="desc">Four ideas decide most questions. When two rules seem to clash, the one higher on this list wins.</p>
+  <div class="body rows">
+    <div><p class="k">Black acts, orange signs</p><p class="v">Every button and active control is black (white in dark). Orange is the one brand colour, kept rare: focus, brand badges, the number that matters, charts. Other hues only mean status: success, danger, warning, information.</p></div>
+    <div><p class="k">One next step</p><p class="v">Each surface has at most one default (black) button. Everything else steps down: outline, then ghost, then link.</p></div>
+    <div><p class="k">Quiet and tactile</p><p class="v">White surfaces lift off a soft ground with a fine ring and a crisp 1px drop. Buttons follow shadcn/ui: flat fills and a 1px outline. No gradients, glows or big blurry shadows.</p></div>
+    <div><p class="k">Swiss structure</p><p class="v">One typeface at one weight on a 4px grid. Hierarchy comes from size and ink, never from bold text or colour. Remove before adding.</p></div>
+  </div>
+</section>
+
+<!-- ================= LOGO ================= -->
+<section id="logo">
+  <h2 class="section-title">Logo</h2>
+  <p class="desc">Five compositions from one geometry: a rounded Enter key with a return arrow, and the lowercase wordmark set as enter in 700 and labs in 300. Always place the master files. Never redraw, retype or recolour them.</p>
+
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Compositions</h3>
+      <p class="sub-desc">Black artwork on light backgrounds, white artwork on dark. The SVGs are transparent, so pick the file by the background it sits on.</p>
+      <div class="sub-body stack">
+        <div class="logo-card wide">
+          <div class="halves lg-horizontal">
+            <div class="half on-light">[[svg:horizontal]]</div>
+            <div class="half on-dark">[[svg:horizontal]]</div>
+          </div>
+          <div class="logo-meta">
+            <p class="name">Horizontal <span class="badge neutral">Default</span></p>
+            <p class="use">Website headers, decks, documents, email signatures and most marketing. Start here.</p>
+            <div class="paths">
+              <button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-horizontal-black.svg"><span>enterlabs-horizontal-black.svg</span><svg><use href="#i-copy"/></svg></button>
+              <button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-horizontal-white.svg"><span>enterlabs-horizontal-white.svg</span><svg><use href="#i-copy"/></svg></button>
+            </div>
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="logo-card">
+            <div class="halves lg-stacked">
+              <div class="half on-light">[[svg:stacked]]</div>
+              <div class="half on-dark">[[svg:stacked]]</div>
+            </div>
+            <div class="logo-meta">
+              <p class="name">Stacked</p>
+              <p class="use">Tight vertical spaces: posters, covers, square social posts.</p>
+              <div class="paths"><button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-stacked-black.svg"><span>enterlabs-stacked-*.svg</span><svg><use href="#i-copy"/></svg></button></div>
+            </div>
+          </div>
+          <div class="logo-card">
+            <div class="halves lg-wordmark">
+              <div class="half on-light">[[svg:wordmark]]</div>
+              <div class="half on-dark">[[svg:wordmark]]</div>
+            </div>
+            <div class="logo-meta">
+              <p class="name">Wordmark</p>
+              <p class="use">When the symbol already appears nearby, such as next to an app icon.</p>
+              <div class="paths"><button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-wordmark-black.svg"><span>enterlabs-wordmark-*.svg</span><svg><use href="#i-copy"/></svg></button></div>
+            </div>
+          </div>
+          <div class="logo-card">
+            <div class="halves lg-symbol">
+              <div class="half on-light">[[svg:symbol]]</div>
+              <div class="half on-dark">[[svg:symbol]]</div>
+            </div>
+            <div class="logo-meta">
+              <p class="name">Symbol</p>
+              <p class="use">App sidebars, avatars and any slot narrower than 180px.</p>
+              <div class="paths"><button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-symbol-black.svg"><span>enterlabs-symbol-*.svg</span><svg><use href="#i-copy"/></svg></button></div>
+            </div>
+          </div>
+          <div class="logo-card">
+            <div class="halves lg-micro">
+              <div class="half on-light">[[svg:micro]]</div>
+              <div class="half on-dark">[[svg:micro]]</div>
+            </div>
+            <div class="logo-meta">
+              <p class="name">Micro</p>
+              <p class="use">16 to 32px only. Thicker strokes so the mark survives favicon sizes.</p>
+              <div class="paths"><button class="chip" data-copy="01_VECTOR_MASTER/SVG/enterlabs-micro-black.svg"><span>enterlabs-micro-*.svg</span><svg><use href="#i-copy"/></svg></button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Clear space</h3>
+      <p class="sub-desc">Keep at least x on every side, where x is a quarter of the symbol's height. More is better. Nothing else, text or edges included, enters the hatched area.</p>
+      <div class="sub-body stage surface-sunk clear-demo">
+        <div class="clear-outer">
+          <span class="clear-x">x</span><span class="clear-x br">x</span>
+          <div class="clear-inner logo">[[svg:horizontal:tight]]</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Minimum size</h3>
+      <p class="sub-desc">Don't shrink the horizontal logo below these sizes. When the space is smaller, switch composition instead.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="min-row">
+          <div class="min-item"><div class="logo" style="width:180px">[[svg:horizontal:tight]]</div><p class="meta">Horizontal, 180px web / 38mm print</p></div>
+          <div class="min-item"><div class="logo" style="height:32px">[[svg:symbol:tight]]</div><p class="meta">Symbol, under 180px</p></div>
+          <div class="min-item"><div class="logo" style="height:16px">[[svg:micro]]</div><p class="meta">Micro, 16 to 32px</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Backgrounds</h3>
+      <p class="sub-desc">The logo is only ever #000000 or #FFFFFF. These four brand surfaces are the approved backgrounds. They are backgrounds, not extra logo colours.</p>
+      <div class="sub-body grid-2">
+        <div><div class="bg-tile ring-light" style="background:#FFFFFF;color:#000000">[[svg:horizontal]]</div><div class="bg-cap"><span>White</span><span class="mono ink-10">#FFFFFF</span></div></div>
+        <div><div class="bg-tile ring-light" style="background:#F5F5F4;color:#000000">[[svg:horizontal]]</div><div class="bg-cap"><span>Off-white</span><span class="mono ink-10">#F5F5F4</span></div></div>
+        <div><div class="bg-tile" style="background:#232323;color:#FFFFFF">[[svg:horizontal]]</div><div class="bg-cap"><span>Charcoal</span><span class="mono ink-10">#232323</span></div></div>
+        <div><div class="bg-tile" style="background:#000000;color:#FFFFFF">[[svg:horizontal]]</div><div class="bg-cap"><span>Black</span><span class="mono ink-10">#000000</span></div></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Don't</h3>
+      <p class="sub-desc">Each of these breaks the mark. If a layout seems to need one, the layout needs to change.</p>
+      <div class="sub-body grid-3">
+        <div class="misuse"><div class="art"><div style="transform:scale(1.3,.8)">[[svg:horizontal]]</div></div><div class="cap"><span class="badge red">Don't</span>Stretch or squash it</div></div>
+        <div class="misuse"><div class="art" style="color:#FF5E1F">[[svg:horizontal]]</div><div class="cap"><span class="badge red">Don't</span>Recolour it, even in brand orange</div></div>
+        <div class="misuse"><div class="art"><div style="filter:drop-shadow(0 4px 5px rgb(0 0 0 / .45))">[[svg:horizontal]]</div></div><div class="cap"><span class="badge red">Don't</span>Add shadows, strokes or effects</div></div>
+        <div class="misuse"><div class="art" style="background:#232323;color:#000000">[[svg:horizontal]]</div><div class="cap"><span class="badge red">Don't</span>Use black artwork on a dark surface</div></div>
+        <div class="misuse"><div class="art">[[svg:wordmark:split]]</div><div class="cap"><span class="badge red">Don't</span>Move or resize enter and labs apart</div></div>
+        <div class="misuse"><div class="art"><div class="typed">[[svg:symbol]]<span><b>enter</b><i>labs</i></span></div></div><div class="cap"><span class="badge red">Don't</span>Retype the wordmark in a font</div></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Which file to use</h3>
+      <p class="sub-desc">The zip is the source of truth. Don't copy the logo out of PDFs, decks or screenshots.</p>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Situation</th><th>File</th></tr></thead>
+          <tbody>
+            <tr><td>Website header, marketing, deck</td><td class="mono">01_VECTOR_MASTER/SVG · horizontal</td></tr>
+            <tr><td>Tight vertical layout</td><td class="mono">01_VECTOR_MASTER/SVG · stacked</td></tr>
+            <tr><td>Symbol already on screen</td><td class="mono">01_VECTOR_MASTER/SVG · wordmark</td></tr>
+            <tr><td>App, sidebar, social avatar</td><td class="mono">SVG symbol or 04_ICONS/App</td></tr>
+            <tr><td>Browser tab, 16 to 32px</td><td class="mono">04_ICONS/Favicon · favicon.svg / .ico</td></tr>
+            <tr><td>PowerPoint, Slides, email</td><td class="mono">03_DIGITAL/PNG · 1400 to 2800w</td></tr>
+            <tr><td>Print vendor</td><td class="mono">02_PRINT/PDF, or EPS on request</td></tr>
+            <tr><td>Figma and design tools</td><td class="mono">Import the SVG master</td></tr>
+            <tr><td>Code and asset registry</td><td class="mono">05_DESIGN_SYSTEM/asset-map.json</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ICONS ================= -->
+<section id="icons">
+  <h2 class="section-title">App icons and favicon</h2>
+  <p class="desc">App and social tiles are the only place the logo sits on its own solid square. Platforms apply their own corner mask, so the files stay square.</p>
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Tiles</h3>
+      <p class="sub-desc">Black tile by default. Use the white tile where a black square would vanish into a dark interface.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="icon-tiles">
+          <div class="icon-tile"><div class="app-icon">[[svg:app-black]]</div><p class="meta">App, black</p></div>
+          <div class="icon-tile"><div class="app-icon">[[svg:app-white]]</div><p class="meta">App, white</p></div>
+          <div class="icon-tile"><div class="app-icon avatar"><img src="[[img:avatar-black]]" alt="Enterlabs avatar, black"></div><p class="meta">Avatar, black</p></div>
+          <div class="icon-tile"><div class="app-icon avatar"><img src="[[img:avatar-white]]" alt="Enterlabs avatar, white"></div><p class="meta">Avatar, white</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Favicon</h3>
+      <p class="sub-desc">Browser tabs use the micro mark, never the regular symbol scaled down. Copy the WebReady folder to the site's public root; its manifest is already wired.</p>
+      <div class="sub-body stage surface-sunk stack">
+        <div class="row">
+          <div class="tab-mock" style="color:#111111"><span style="color:#000">[[svg:micro]]</span>Enterlabs</div>
+          <div class="tab-mock dark"><span style="color:#fff">[[svg:micro]]</span>Enterlabs</div>
+        </div>
+        <div class="fav-sizes logo">
+          <div class="s"><div style="height:16px">[[svg:micro]]</div><p class="meta">16</p></div>
+          <div class="s"><div style="height:32px">[[svg:micro]]</div><p class="meta">32</p></div>
+          <div class="s"><div style="height:48px">[[svg:micro]]</div><p class="meta">48</p></div>
+        </div>
+      </div>
+      <div class="sub-body code">
+        <button class="btn btn-outline btn-sm rounded-full" data-copy-target="fav-code"><svg><use href="#i-copy"/></svg><span>Copy</span></button>
+<pre id="fav-code">&lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;
+&lt;link rel="icon" sizes="any" href="/favicon.ico"&gt;
+&lt;link rel="apple-touch-icon" href="/apple-touch-icon.png"&gt;
+&lt;link rel="manifest" href="/site.webmanifest"&gt;</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COLOUR ================= -->
+<section id="colour">
+  <h2 class="section-title">Colour</h2>
+  <p class="desc">Black and white carry the interface, and orange marks the brand. A 12-step neutral builds structure; four status hues carry meaning and stay clear of orange.</p>
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Brand colours</h3>
+      <p class="sub-desc">Black, white and the two grounds come from the logo kit. Click a value to copy it.</p>
+      <div class="sub-body grid-3">
+        <div class="swatch"><div class="swatch-chip" style="background:#FF5E1F"></div><p class="nm">Brand orange</p><p class="rl">Accent only. Never a button or control.</p><button class="chip" data-copy="#FF5E1F"><span>#FF5E1F</span><svg><use href="#i-copy"/></svg></button></div>
+        <div class="swatch"><div class="swatch-chip" style="background:#000000"></div><p class="nm">Ink</p><p class="rl">Logo on light, primary action, dark ground.</p><button class="chip" data-copy="#000000"><span>#000000</span><svg><use href="#i-copy"/></svg></button></div>
+        <div class="swatch"><div class="swatch-chip" style="background:#FFFFFF"></div><p class="nm">Inverse</p><p class="rl">Logo on dark. Top surface in light.</p><button class="chip" data-copy="#FFFFFF"><span>#FFFFFF</span><svg><use href="#i-copy"/></svg></button></div>
+        <div class="swatch"><div class="swatch-chip" style="background:#F5F5F4"></div><p class="nm">Off-white</p><p class="rl">Light ground, ink-2.</p><button class="chip" data-copy="#F5F5F4"><span>#F5F5F4</span><svg><use href="#i-copy"/></svg></button></div>
+        <div class="swatch"><div class="swatch-chip" style="background:#232323"></div><p class="nm">Charcoal</p><p class="rl">Dark wells and fills, dark ink-3.</p><button class="chip" data-copy="#232323"><span>#232323</span><svg><use href="#i-copy"/></svg></button></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Brand orange</h3>
+      <p class="sub-desc">Orange signs; black acts. It shows up in small, deliberate places so it stays loud when it does. Click a step to copy it.</p>
+      <div class="sub-body stack">
+        <div>
+          <div class="scale-label"><span>Scale</span><span class="meta">9 is the brand; 11 and text are for type</span></div>
+          <div class="swatch-row">
+            <div class="st"><button class="c" style="background:#FFEFE9" data-copy="#FFEFE9" aria-label="Copy brand-3"></button><span class="n">3 tint</span><span class="h">FFEFE9</span></div>
+            <div class="st"><button class="c" style="background:#FFC7B0" data-copy="#FFC7B0" aria-label="Copy brand-6"></button><span class="n">6 edge</span><span class="h">FFC7B0</span></div>
+            <div class="st"><button class="c" style="background:#FF7038" data-copy="#FF7038" aria-label="Copy brand-400"></button><span class="n">light</span><span class="h">FF7038</span></div>
+            <div class="st"><button class="c" style="background:#FF5E1F" data-copy="#FF5E1F" aria-label="Copy brand-9"></button><span class="n">9 brand</span><span class="h">FF5E1F</span></div>
+            <div class="st"><button class="c" style="background:#FF4801" data-copy="#FF4801" aria-label="Copy brand-10"></button><span class="n">10 deep</span><span class="h">FF4801</span></div>
+            <div class="st"><button class="c" style="background:#D63C01" data-copy="#D63C01" aria-label="Copy brand-text"></button><span class="n">text</span><span class="h">D63C01</span></div>
+            <div class="st"><button class="c" style="background:#B83300" data-copy="#B83300" aria-label="Copy brand-11"></button><span class="n">11 strong</span><span class="h">B83300</span></div>
+          </div>
+        </div>
+        <div class="stage surface-sunk">
+          <div class="grid-2" style="align-items:start">
+            <div class="stack" style="gap:20px">
+              <div class="row" style="gap:12px"><button class="btn btn-outline focus-demo" tabindex="-1">Focused button</button><span class="ink-11">Focus ring</span></div>
+              <div class="row" style="gap:8px"><span class="badge brand">New</span><span class="badge brand">Recommended</span><span class="ink-11">Brand badge</span></div>
+              <div><p class="figure-n text-brand">4.5x</p><p class="figure-l">Faster review, the number that matters</p></div>
+            </div>
+            <div class="card surface-raised"><p class="card-title">Claims per day</p><div class="chart-bars" style="margin-top:12px" aria-label="Claims per day, today highlighted"><i style="height:40%"></i><i style="height:55%"></i><i style="height:48%"></i><i style="height:70%"></i><i style="height:62%"></i><i style="height:58%"></i><i class="hl" style="height:88%"></i></div><div class="chart-legend"><span><i style="background:var(--chart-1)"></i>Today</span><span><i style="background:var(--ink-5)"></i>Earlier</span></div></div>
+          </div>
+        </div>
+        <div class="dodont">
+          <div class="do"><p class="h"><svg class="ico" aria-hidden="true"><use href="#i-check"/></svg>Orange goes on</p><ul class="rules"><li>The focus ring of every control</li><li>Brand badges: "New", "Recommended"</li><li>The one figure or word that matters</li><li>Chart series 1, the series that matters</li><li>Text selection</li><li>Marketing pages: an orange field with black type and a black button</li></ul></div>
+          <div class="dont"><p class="h"><svg class="ico" aria-hidden="true"><use href="#i-x"/></svg>Orange never goes on</p><ul class="rules"><li>Buttons, checkboxes, radios, switches, active tabs or selected rows</li><li>Body text or long runs of text</li><li>The logo: it stays black or white</li><li>Status: it never means success, danger or warning</li><li>Shadows, glows or tints behind cards</li></ul></div>
+        </div>
+        <div class="brand-field"><p style="font-size:24px;line-height:32px;letter-spacing:-0.02em">Review every claim in minutes</p><p class="lead" style="margin-top:6px">Marketing pages only: black type and a black button on orange (6.7:1).</p><div class="row" style="margin-top:16px"><button class="btn btn-default">Book a demo</button></div></div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Neutral scale</h3>
+      <p class="sub-desc">Twelve steps, each with one job. Components ask for a step (ink-3, ink-11), never a hex value, so the same component works on any surface and in both themes. Click a step to copy it.</p>
+      <div class="sub-body stack">
+        <div>
+          <div class="scale-label"><span>Light</span><span class="meta">ink-2 is the brand off-white</span></div>
+          <div class="scale" id="scale-light"></div>
+        </div>
+        <div>
+          <div class="scale-label"><span>Dark</span><span class="meta">ink-3 is the brand charcoal; the ground is #000000</span></div>
+          <div class="scale dark-scale" id="scale-dark"></div>
+        </div>
+        <div class="table-wrap surface-raised">
+          <table class="tbl doc-tbl">
+            <thead><tr><th>Step</th><th class="wrap">Job</th></tr></thead>
+            <tbody>
+              <tr><td>ink-1, 2</td><td class="wrap">Grounds. Light ink-2 is the app ground behind the white panel.</td></tr>
+              <tr><td>ink-3, 4, 5</td><td class="wrap">Fills: field wells, chips, selected rows (3), hover and focus (4), pressed (5).</td></tr>
+              <tr><td>ink-6, 7</td><td class="wrap">Lines: 0.5px hairlines (6), stronger or hovered lines (7).</td></tr>
+              <tr><td>ink-8</td><td class="wrap">Rare. Disabled text on fills, checkbox rings.</td></tr>
+              <tr><td>ink-9</td><td class="wrap">Faint. Leading icons and decoration only; never text someone must read.</td></tr>
+              <tr><td>ink-10</td><td class="wrap">Tertiary. Meta, timestamps, placeholders, chevrons, table cells.</td></tr>
+              <tr><td>ink-11</td><td class="wrap">Secondary text. Descriptions and body copy.</td></tr>
+              <tr><td>ink-12</td><td class="wrap">Strong text: titles, values, labels. Also the primary button fill.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Status colours</h3>
+      <p class="sub-desc">Hue means status, nothing else. Always the tinted pattern: the -3 tint as the fill with -11 text. Every status hue sits at least 25° (OKLCH) from brand orange, so success is teal and danger is ruby: neither can be mistaken for the brand. Class names stay green, red, amber, blue.</p>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Role</th><th>Example</th><th class="wrap">Use for</th><th>Tokens</th></tr></thead>
+          <tbody>
+            <tr><td>Success · teal</td><td><span class="badge green"><span class="dot"></span>Live</span></td><td class="wrap">Running, done, approved, live. Only when the count is above 0.</td><td class="mono">green-3 / 9 / 11</td></tr>
+            <tr><td>Danger · ruby</td><td><span class="badge red">Failed</span></td><td class="wrap">Failed, error, flagged, destructive.</td><td class="mono">red-3 / 9 / 11</td></tr>
+            <tr><td>Warning · amber</td><td><span class="badge amber">Needs review</span></td><td class="wrap">Caution, needs attention.</td><td class="mono">amber-3 / 9 / 11</td></tr>
+            <tr><td>Info · blue</td><td><span class="badge blue">Beta</span></td><td class="wrap">Information, beta, in progress.</td><td class="mono">blue-3 / 9 / 11</td></tr>
+            <tr><td>Inactive</td><td><span class="badge neutral">Paused</span></td><td class="wrap">Stopped, paused, off.</td><td class="mono">neutral</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Contrast</h3>
+      <p class="sub-desc">Text someone must read to act passes 4.5:1 on its surface. These pairs are checked; the faint steps are limited to what they can carry.</p>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Pair</th><th>Light</th><th>Dark</th><th class="wrap">Allowed for</th></tr></thead>
+          <tbody>[[contrast-rows]]</tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Other colours</h3>
+      <p class="sub-desc">Each has one narrow job. None of them fills a button.</p>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Token</th><th>Light</th><th>Dark</th><th class="wrap">Use</th></tr></thead>
+          <tbody>
+            <tr><td class="mono">link</td><td><span class="swatch-inline" style="background:#193CB8"></span>#193CB8</td><td><span class="swatch-inline" style="background:#7DA2FF"></span>#7DA2FF</td><td class="wrap">Inline links inside sentences. Link buttons stay ink.</td></tr>
+            <tr><td class="mono">chart-1</td><td><span class="swatch-inline" style="background:#FF5E1F"></span>#FF5E1F</td><td><span class="swatch-inline" style="background:#FF7038"></span>#FF7038</td><td class="wrap">The series that matters. Everything else grey.</td></tr>
+            <tr><td class="mono">chart-2 … 5</td><td><span class="swatch-inline" style="background:#0A95FF"></span><span class="swatch-inline" style="background:#00BD7D"></span><span class="swatch-inline" style="background:#EE0DDB"></span><span class="swatch-inline" style="background:#0D9488"></span></td><td><span class="swatch-inline" style="background:#3AAEFF"></span><span class="swatch-inline" style="background:#2BD69A"></span><span class="swatch-inline" style="background:#F24DE6"></span><span class="swatch-inline" style="background:#2BB3A3"></span></td><td class="wrap">Only when categories must be told apart. Add labels or patterns too.</td></tr>
+            <tr><td class="mono">selection</td><td><span class="swatch-inline" style="background:#C82800"></span>#C82800</td><td>same</td><td class="wrap">Selected text, with white type.</td></tr>
+            <tr><td class="mono">cream</td><td><span class="swatch-inline" style="background:#FFFBF5"></span>#FFFBF5</td><td><span class="dash">–</span></td><td class="wrap">Warm band on marketing pages (quotes, testimonials).</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TYPE ================= -->
+<section id="type">
+  <h2 class="section-title">Typography</h2>
+  <p class="desc">Inter for every word of the interface, at one weight: Medium (500). The wordmark was drawn from Inter Display 700 and 300, then outlined. Those weights belong to the logo, not the interface.</p>
+  <div class="body">
+    <div class="sub">
+      <div class="stage surface-sunk specimen">
+        <p class="aa">Aa</p>
+        <div class="weights">
+          <p class="ink-12">Inter Medium, 500</p>
+          <p class="glyphs">ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 (,.;:!?…) Rp 12.480.000</p>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Scale</h3>
+      <p class="sub-desc">Line heights are fixed pixels on the 4px grid. Each step down in size also steps down in ink.</p>
+      <div class="sub-body type-rows">
+        <div><div class="spec"><p class="k">Display</p><p class="meta">32/40 · −0.02em · ink-12</p></div><p class="type-sample" style="font-size:32px;line-height:40px;letter-spacing:-0.02em"><span class="ink-11">Ship the</span> claim review</p></div>
+        <div><div class="spec"><p class="k">Figure</p><p class="meta">24/32 · tabular · ink-12</p></div><p class="type-sample" style="font-size:24px;line-height:32px;font-variant-numeric:tabular-nums">12,480</p></div>
+        <div><div class="spec"><p class="k">Section title</p><p class="meta">20/28 · ink-12</p></div><p class="type-sample" style="font-size:20px;line-height:28px">Recent projects</p></div>
+        <div><div class="spec"><p class="k">Card, dialog title</p><p class="meta">16/24 · ink-12</p></div><p class="type-sample" style="font-size:16px;line-height:24px">Delete this project?</p></div>
+        <div><div class="spec"><p class="k">Body, controls</p><p class="meta">13/20 · ink-12 / ink-11</p></div><p class="type-sample" style="font-size:13px;line-height:20px">Values in ink-12. <span class="ink-11">Descriptions in ink-11, one step quieter.</span></p></div>
+        <div><div class="spec"><p class="k">Meta</p><p class="meta">12/16 · ink-10</p></div><p class="type-sample" style="font-size:12px;line-height:16px;color:var(--ink-10)">Updated 2 hours ago</p></div>
+        <div><div class="spec"><p class="k">Mono</p><p class="meta">IDs, code, keys only</p></div><p class="type-sample mono" style="font-size:12px;line-height:16px">EL-2026-00481</p></div>
+      </div>
+      <ul class="rules">
+        <li><b>13px body</b>, not 14. On phones it rises to 15px, and fields to 16px so iOS doesn't zoom.</li>
+        <li><b>No bold for hierarchy.</b> Size plus ink step does the work. Bold is rare emphasis inside a sentence.</li>
+        <li><b>Button labels</b> track at −0.01em. Display titles at −0.02em.</li>
+        <li><b>Tabular figures</b> wherever numbers line up: tables, figures, totals.</li>
+        <li><b>Sentence case</b> everywhere. Use … not three dots. No em dashes in interface copy.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SPACING ================= -->
+<section id="spacing">
+  <h2 class="section-title">Spacing and sizes</h2>
+  <p class="desc">A 4px grid with 2px half-steps. Space grows with the distance in meaning: tight inside a control, wider between items, widest between sections.</p>
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Ladder</h3>
+      <div class="sub-body stage surface-sunk">
+        <div class="ladder" id="ladder"></div>
+      </div>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Where</th><th>Space</th></tr></thead>
+          <tbody>
+            <tr><td>Inside a control or row (icon to label)</td><td>4 to 8px</td></tr>
+            <tr><td>Between items in a group, button to button</td><td>8 to 12px</td></tr>
+            <tr><td>Between fields in a form</td><td>16 to 20px</td></tr>
+            <tr><td>Card padding, dialog body</td><td>16 to 24px</td></tr>
+            <tr><td>Between sections</td><td>24px gap inside 32px padding</td></tr>
+            <tr><td>Above the first title / page foot</td><td>48px / 64px</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Control heights</h3>
+      <p class="sub-desc">Heights come from line height plus padding: 36 = 20 + 2 × 8. Buttons keep the shadcn sizes; fields and toggles grow to 44px on phones.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="heights" id="heights"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SHAPE ================= -->
+<section id="shape">
+  <h2 class="section-title">Shape and elevation</h2>
+  <p class="desc">One radius is set; the rest follow from it. Elevation is a fine ring and a crisp 1px drop, plus at most one short drop for things that float higher.</p>
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Radius</h3>
+      <p class="sub-desc">Controls take 6px, echoing the rounded Enter key. A nested corner is the outer radius minus the gap or border between them.</p>
+      <div class="sub-body radii">
+        <div class="r"><div class="bx" style="border-radius:3px"></div><p class="meta">xs · 3</p></div>
+        <div class="r"><div class="bx" style="border-radius:4px"></div><p class="meta">sm · 4</p></div>
+        <div class="r"><div class="bx" style="border-radius:6px"></div><p class="meta">control · 6</p></div>
+        <div class="r"><div class="bx" style="border-radius:8px"></div><p class="meta">container · 8</p></div>
+        <div class="r"><div class="bx" style="border-radius:12px"></div><p class="meta">feature · 12</p></div>
+        <div class="r"><div class="bx" style="border-radius:14px 14px 0 0"></div><p class="meta">sheet · 14</p></div>
+        <div class="r"><div class="bx" style="border-radius:999px"></div><p class="meta">full</p></div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Elevation</h3>
+      <p class="sub-desc">Switch the theme to compare. Light raises with a ring and a drop. Dark raises by getting lighter, with one solid 0.5px outline and a black drop, never a glow.</p>
+      <div class="sub-body elev">
+        <div class="e"><div class="obj" style="box-shadow:var(--shadow-xs);border:1px solid var(--border);background:var(--background);border-radius:6px;height:36px;margin:14px 0"></div><p>Button</p><p class="meta mono">border + shadow-xs</p></div>
+        <div class="e surface-raised"><div class="obj" style="box-shadow:var(--shadow-card)"></div><p>Card</p><p class="meta mono">shadow-card</p></div>
+        <div class="e"><div class="obj" style="box-shadow:0 0 0 0.5px var(--line), var(--shadow-table)"></div><p>Table</p><p class="meta mono">shadow-table</p></div>
+        <div class="e"><div class="obj" style="box-shadow:var(--shadow-menu);background:var(--overlay)"></div><p>Menu</p><p class="meta mono">shadow-menu</p></div>
+        <div class="e"><div class="obj" style="box-shadow:var(--shadow-modal);background:var(--overlay)"></div><p>Modal</p><p class="meta mono">shadow-modal</p></div>
+      </div>
+      <ul class="rules">
+        <li>Structural lines are 0.5px. The 1px rings inside light shadows are the only 1px lines.</li>
+        <li>No big soft blurs. If a shadow is visible from across the room, it's too much.</li>
+        <li>A control borrows its fill, edge and drop from the surface it sits on, so it reads the same on a panel, card or sheet.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= COMPONENTS ================= -->
+<section id="components">
+  <h2 class="section-title">Components</h2>
+  <p class="desc">Live specimens. Press, toggle and focus them with the keyboard: they are built from the same tokens your product will use.</p>
+  <div class="body">
+
+    <div class="sub">
+      <h3 class="sub-title">Buttons</h3>
+      <p class="sub-desc">Pick the role by weight. Name the one next step on the surface; that is the primary. Everything else steps down.</p>
+      <div class="sub-body stage surface-sunk stack">
+        <div class="row">
+          <button class="btn btn-default"><svg><use href="#i-plus"/></svg>New project</button>
+          <button class="btn btn-outline">Export</button>
+          <button class="btn btn-outline btn-sm rounded-full" data-copy="EL-2026-00481"><svg><use href="#i-copy"/></svg><span>Copy ID</span></button>
+          <button class="btn btn-ghost">Cancel</button>
+          <button class="btn btn-destructive">Delete</button>
+        </div>
+        <div class="row">
+          <button class="btn btn-default" id="save-btn" style="min-width:96px">Save</button>
+          <button class="btn btn-default" disabled>Disabled</button>
+          <button class="btn btn-outline" disabled>Disabled</button>
+          <span class="meta">Click Save to see the loading state</span>
+        </div>
+        <div class="row">
+          <button class="btn btn-outline">36 default</button>
+          <button class="btn btn-outline btn-sm">32 compact</button>
+          <button class="btn btn-outline btn-sm rounded-full">28 pill</button>
+        </div>
+      </div>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Role</th><th class="wrap">Use</th></tr></thead>
+          <tbody>
+            <tr><td>Primary</td><td class="wrap">The single next step. Black in light, white in dark. One per surface, or none.</td></tr>
+            <tr><td>Secondary</td><td class="wrap">Other actions. White in light, raised by the button shadow, no border.</td></tr>
+            <tr><td>Utility pill</td><td class="wrap">Belongs to content: copy, filter, back. Fully round, 28px.</td></tr>
+            <tr><td>Tertiary</td><td class="wrap">Cancel and quiet links. No fill until hovered.</td></tr>
+            <tr><td>Destructive</td><td class="wrap">Trigger is white with red text. Only the final confirm, inside its dialog, is solid red.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="rules">
+        <li><b>Press</b> squeezes to 97% in 150ms. Smaller targets squeeze a little more.</li>
+        <li><b>Loading</b> swaps the label in place for a spinner and "Saving…", in the same button, so nothing jumps.</li>
+        <li><b>Copy</b> turns its icon into a tick at once. No toast.</li>
+        <li><b>Padding</b> is 14px a side; the side with a leading icon is 2px tighter.</li>
+      </ul>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Fields</h3>
+      <p class="sub-desc">Fields are wells: sunk into their surface with a quiet fill and no border. Focus deepens the fill and adds the focus ring. Errors show on blur or submit, never while typing.</p>
+      <div class="sub-body stage surface-sunk">
+        <form class="card surface-raised" style="max-width:440px;display:grid;gap:16px" onsubmit="return false">
+          <div class="field"><label for="f-name">Project name</label><input id="f-name" class="input" placeholder="e.g. Claims portal"></div>
+          <div class="field"><label for="f-mail">Work email</label><input id="f-mail" class="input" value="rama@enterlabs" aria-invalid="true" aria-describedby="f-mail-err"><p class="err" id="f-mail-err">Enter a full address, like name@enterlabs.id</p></div>
+          <div class="field"><label for="f-region">Region <span class="opt">(optional)</span></label>
+            <div class="select-wrap"><select id="f-region" class="input"><option>Jakarta</option><option>Surabaya</option><option>Singapore</option></select><svg><use href="#i-chev"/></svg></div>
+            <p class="hint">Used for invoices and time zones.</p></div>
+          <div class="row" style="justify-content:flex-end;gap:8px"><button class="btn btn-ghost" type="button">Cancel</button><button class="btn btn-default" type="button">Create project</button></div>
+        </form>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Toggles and switches</h3>
+      <p class="sub-desc">A segmented toggle switches views; the chosen option is a small raised button that slides. A switch turns one setting on or off and takes effect at once.</p>
+      <div class="sub-body stage surface-sunk stack">
+        <div class="seg" id="demo-seg" role="group" aria-label="Range">
+          <span class="thumb" aria-hidden="true"></span>
+          <button type="button" aria-pressed="false">Day</button>
+          <button type="button" aria-pressed="true">Week</button>
+          <button type="button" aria-pressed="false">Month</button>
+        </div>
+        <div class="switch-row surface-raised">
+          <div><p>Email alerts</p><p class="ink-11">When a claim needs review</p></div>
+          <button class="switch" role="switch" aria-checked="true" aria-label="Email alerts"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Badges</h3>
+      <p class="sub-desc">Fully round, tinted, with an edge drawn from their own colour. A neutral badge is white with the button shadow.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="row">
+          <span class="badge green"><span class="dot"></span>Live</span>
+          <span class="badge red">Failed</span>
+          <span class="badge amber">Needs review</span>
+          <span class="badge blue">Beta</span>
+          <span class="badge neutral">Paused</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Cards and figures</h3>
+      <p class="sub-desc">A card holds one unit of related data. One strong figure beats six small ones; the label sits directly under the number.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="grid-2">
+          <div class="card surface-raised">
+            <div class="card-head"><p class="card-title">Processed claims</p><span class="badge green"><span class="dot"></span>Live</span></div>
+            <p class="figure-n" style="margin-top:16px">12,480</p>
+            <p class="figure-l">Last 7 days</p>
+          </div>
+          <div class="card surface-raised">
+            <div class="card-head"><p class="card-title">Median review time</p><button class="btn btn-outline btn-sm rounded-full">Details</button></div>
+            <p class="figure-n" style="margin-top:16px">4m 12s</p>
+            <p class="figure-l">Down from 6m 40s</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Tables</h3>
+      <p class="sub-desc">Many records. Actions sit right of the title, above the data. Paging sits below the table, outside its frame.</p>
+      <div class="sub-body stage surface-sunk stack">
+        <div class="row" style="justify-content:space-between">
+          <p class="card-title">Projects</p>
+          <div class="menu-anchor">
+            <button class="btn btn-outline btn-sm menu-trigger" id="sort-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="sort-menu">Sort: <span id="sort-label">Newest</span><svg class="chev"><use href="#i-chev"/></svg></button>
+            <div class="menu surface-overlay" id="sort-menu" role="menu" aria-labelledby="sort-btn" style="left:auto;right:0;transform-origin:top right">
+              <button role="menuitemradio" aria-checked="true">Newest</button>
+              <button role="menuitemradio" aria-checked="false">Oldest</button>
+              <button role="menuitemradio" aria-checked="false">Name A to Z</button>
+            </div>
+          </div>
+        </div>
+        <div class="table-wrap surface-raised">
+          <table class="tbl">
+            <thead><tr><th>Project</th><th>ID</th><th>Status</th><th>Owner</th><th>Updated</th></tr></thead>
+            <tbody>
+              <tr><td>Claims portal</td><td class="mono">EL-00481</td><td><span class="status green"><span class="dot"></span>Live</span></td><td>Rama</td><td>2h ago</td></tr>
+              <tr><td>Fraud model v3</td><td class="mono">EL-00477</td><td><span class="status amber"><span class="dot"></span>In review</span></td><td>Dita</td><td>Yesterday</td></tr>
+              <tr><td>Brand site</td><td class="mono">EL-00462</td><td><span class="status neutral"><span class="dot"></span>Paused</span></td><td>Bayu</td><td>12 Nov</td></tr>
+              <tr><td>Partner API</td><td class="mono">EL-00455</td><td><span class="status red"><span class="dot"></span>Failed</span></td><td>Sari</td><td>9 Nov</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row" style="justify-content:space-between"><span class="ink-11">1 to 4 of 32</span><div class="row" style="gap:8px"><button class="btn btn-outline btn-sm" disabled>Previous</button><button class="btn btn-outline btn-sm">Next</button></div></div>
+      </div>
+      <ul class="rules">
+        <li>38px rows, 0.5px frame and dividers, 8px radius. Cells left-aligned in one typeface with tabular figures.</li>
+        <li>Header and first column in ink-12, other cells in ink-10. Status as a dot in its hue.</li>
+        <li>Stop at 5 or 6 rows on an overview, then a pager or "View all".</li>
+        <li><b>Menus</b> open in 150ms from 97% scale at the trigger. The chosen item is a darker fill, not a tick.</li>
+      </ul>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Dialogs</h3>
+      <p class="sub-desc">Only for a focused task or a confirm. 460px for a confirm, 620px for a task. Cancel on the left, confirm on the right. On phones a dialog becomes a bottom sheet.</p>
+      <div class="sub-body stage surface-sunk backdrop-stage">
+        <div class="dialog surface-overlay" role="dialog" aria-labelledby="dlg-t" aria-describedby="dlg-d">
+          <div class="dialog-head">
+            <p class="dialog-title" id="dlg-t">Delete Claims portal?</p>
+            <p class="ink-11" id="dlg-d" style="margin-top:4px">Its 12,480 claims and their history go with it. This can't be undone.</p>
+          </div>
+          <div class="dialog-foot"><button class="btn btn-outline">Cancel</button><button class="btn btn-destructive">Delete project</button></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Toasts</h3>
+      <p class="sub-desc">Only for a result the user can't otherwise see. One at a time, bottom centre, as a tinted pill. Never for a copy.</p>
+      <div class="sub-body stage surface-sunk"><button class="btn btn-outline" id="toast-btn">Show toast</button></div>
+    </div>
+
+    <div class="sub">
+      <h3 class="sub-title">Empty and failed states</h3>
+      <p class="sub-desc">Two lines: what's missing, then what to do. A failed load uses the same layout with one "Try again".</p>
+      <div class="sub-body grid-2">
+        <div class="empty"><svg><use href="#i-inbox"/></svg><p>No projects yet</p><p>Projects you create or join show up here.</p></div>
+        <div class="empty"><svg><use href="#i-return"/></svg><p>Projects didn't load</p><p>Check your connection, then try again.</p><button class="btn btn-outline btn-sm">Try again</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MOTION ================= -->
+<section id="motion">
+  <h2 class="section-title">Motion</h2>
+  <p class="desc">Motion is quick and has a reason. The more often something is seen, the less it moves. Animate transform and opacity only.</p>
+  <div class="body">
+    <div class="sub">
+      <div class="curve-card">
+        <svg class="curve" viewBox="-8 -8 176 176" aria-label="Ease-out curve">
+          <path class="grid" d="M0 0H160M0 40H160M0 80H160M0 120H160M0 160H160M0 0V160M40 0V160M80 0V160M120 0V160M160 0V160" fill="none"/>
+          <path d="M0 160 C36.8 0 51.2 0 160 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <p class="sub-title">Strong ease-out</p>
+          <p class="mono ink-11" style="margin-top:4px">cubic-bezier(.23, 1, .32, 1)</p>
+          <p class="ink-11" style="margin-top:8px">For anything the user caused: press, open, close, swap, hover. It starts fast, so the interface feels like it answered.</p>
+          <div class="track" id="track" aria-hidden="true"><span class="puck"></span></div>
+          <div class="row" style="margin-top:12px"><button class="btn btn-outline btn-sm" id="play-btn">Play</button></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <div class="table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <thead><tr><th>Moment</th><th>Duration</th><th class="wrap">Notes</th></tr></thead>
+          <tbody>
+            <tr><td>Hover, press, colour</td><td>150ms</td><td class="wrap">Hover only with a mouse. Each row fades its own fill.</td></tr>
+            <tr><td>Menu</td><td>150 in / 120 out</td><td class="wrap">From 97% scale and transparent, origin at the trigger.</td></tr>
+            <tr><td>Content swap, toast</td><td>200ms</td><td class="wrap">Exits are faster than entrances.</td></tr>
+            <tr><td>Modal</td><td>240 in / 200 out</td><td class="wrap">16px rise, 4px blur, fade.</td></tr>
+            <tr><td>Phone sheet</td><td>320 up / 200 down</td><td class="wrap">Solid the whole way; drag to close.</td></tr>
+            <tr><td>Toggle, switch</td><td>400 to 450ms spring</td><td class="wrap">Small bounce that stays inside the track.</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <ul class="rules">
+        <li><b>Never</b> transition: all, ease-in on interface, scale from 0, or animate keyboard actions and changing numbers.</li>
+        <li><b>Reduced motion:</b> travel, blur and scale become a 150 to 200ms crossfade. Every transition ships with one.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ================= LAYOUT ================= -->
+<section id="layout">
+  <h2 class="section-title">Layout</h2>
+  <p class="desc">Pick the column by what the page is for. Put actions next to what they act on, above the data. Show the least that answers the question.</p>
+  <div class="body">
+    <div class="sub">
+      <h3 class="sub-title">Columns</h3>
+      <div class="sub-body cols">
+        <div class="bar" style="width:36.67%"><b>440</b><span>Form, flow</span></div>
+        <div class="bar" style="width:66.67%"><b>800</b><span>Reading, settings</span></div>
+        <div class="bar" style="width:100%"><b>1200</b><span>Data, dashboards</span></div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Section rhythm</h3>
+      <p class="sub-desc">Title, 6px, description, 24px, content. 32px above and below each section.</p>
+      <div class="sub-body stage surface-sunk">
+        <div class="rhythm">
+          <div class="rr"><div class="blk" style="height:28px;color:var(--ink-12)">Section title 20/28</div><span></span></div>
+          <div class="rr"><div class="sp" style="height:6px"></div><span>6</span></div>
+          <div class="rr"><div class="blk" style="height:20px">Description 13/20</div><span></span></div>
+          <div class="rr"><div class="sp" style="height:24px"></div><span>24</span></div>
+          <div class="rr"><div class="blk" style="height:64px">Content</div><span></span></div>
+          <div class="rr"><div class="sp" style="height:32px"></div><span>32</span></div>
+          <div class="rr"><div class="blk" style="height:28px;color:var(--ink-12)">Next section</div><span></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="sub">
+      <h3 class="sub-title">Phone</h3>
+      <p class="sub-desc">Under 768px. Same tokens, larger values.</p>
+      <div class="sub-body table-wrap surface-raised">
+        <table class="tbl doc-tbl">
+          <tbody>
+            <tr><td>Touch targets</td><td class="wrap">44pt. Small visuals keep their look and get an invisible 44pt hit area.</td></tr>
+            <tr><td>Text</td><td class="wrap">15px floor; fields 16px.</td></tr>
+            <tr><td>Gutter</td><td class="wrap">20px each side.</td></tr>
+            <tr><td>Actions</td><td class="wrap">Stacked full width; a dialog's confirm goes on top.</td></tr>
+            <tr><td>Dialogs</td><td class="wrap">Bottom sheets with 14px top corners and a grab handle instead of ×.</td></tr>
+            <tr><td>Hover</td><td class="wrap">Nothing that only shows on hover.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TOKENS ================= -->
+<section id="tokens">
+  <div class="row" style="justify-content:space-between;align-items:flex-start;column-gap:24px">
+    <div style="flex:1 1 320px;min-width:0">
+      <h2 class="section-title">Tokens</h2>
+      <p class="desc">Light, dark and surface rules in one file. Components ask for roles; to retheme, change values here only.</p>
+    </div>
+    <div class="row" style="gap:8px">
+      <button class="btn btn-default" data-copy-target="tokens-code"><svg><use href="#i-copy"/></svg><span>Copy CSS</span></button>
+    </div>
+  </div>
+  <div class="body code tall"><pre id="tokens-code">[[tokens-escaped]]</pre></div>
+  <ul class="rules">
+    <li>Theme switch: set <code>data-theme="dark"</code> on <code>&lt;html&gt;</code>. Without it, follow the system setting.</li>
+    <li>Wrap each surface in its class (<code>surface-panel</code>, <code>surface-raised</code>, <code>surface-overlay</code>, <code>surface-rail</code>) so controls inside borrow from it.</li>
+    <li>The logo kit's own <code>enterlabs-tokens.css</code> names (<code>--el-*</code>) are kept, so both files agree.</li>
+    <li>The same spec, machine-readable for Claude and other tools, lives at <code>/dist/index.json</code>; the <code>enterlabs-design</code> skill reads it on every run.</li>
+  </ul>
+</section>
+
+<!-- ================= CHECKLIST ================= -->
+<section id="checklist">
+  <h2 class="section-title">Before you ship</h2>
+  <p class="desc">Zoom to 4 to 8 times, in both themes, with the longest real data. Then check none of these is true.</p>
+  <ul class="body checklist">
+    <li>The logo is recoloured, stretched, retyped, given effects, or placed below 180px wide.</li>
+    <li>Black logo artwork sits on a dark surface, or white on a light one.</li>
+    <li>More than one primary on a surface, or a primary that isn't the real next step.</li>
+    <li>A status hue used for decoration or importance, or orange used to mean a status.</li>
+    <li>Two default buttons side by side, or a destructive button on something that doesn't delete or revoke.</li>
+    <li>Orange on a button, checkbox, switch, active tab, selected row, the logo or body text.</li>
+    <li>A gradient anywhere, an illustration in any colour but grey, white and orange, or the logo used as decoration.</li>
+    <li>Hierarchy made with bold or colour instead of size and ink.</li>
+    <li>Text someone must read below 4.5:1 contrast.</li>
+    <li>Structural lines thicker than 0.5px, double borders, or mismatched nested radii.</li>
+    <li>Big soft shadows, or in dark mode a glow, a lit top edge, or an outline over 0.5px.</li>
+    <li>Dark mode that changes padding, height, radius or border width.</li>
+    <li>Actions placed below the data they act on, or a pager inside a table's frame.</li>
+    <li>Layout that jumps when data or a loading state arrives.</li>
+    <li>Title Case labels, three dots instead of …, or em dashes in interface copy.</li>
+    <li>A toast for a copy, or a tick on the chosen menu item.</li>
+    <li>A transition with no reduced-motion version, or hover-only information.</li>
+    <li>Touch targets under 44pt, or fields under 16px on touch screens.</li>
+  </ul>
+  <div class="foot">
+    <p class="meta">Enterlabs design system v0.3 · Logo kit v1.0, 5 Nov 2026</p>
+    <p class="meta">Updated 25 Nov 2026</p>
+  </div>
+</section>
+
+    </div>
+  </main>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><svg><use href="#i-check"/></svg><span>Changes saved</span></div>
+
+<script>
+(function () {
+  var root = document.documentElement;
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)');
+
+  /* Segmented toggles with a sliding thumb */
+  function placeThumb(seg, instant) {
+    var on = seg.querySelector('button[aria-pressed="true"]');
+    var th = seg.querySelector('.thumb');
+    if (!on || !th) return;
+    if (instant) seg.classList.add('no-anim');
+    th.style.width = on.offsetWidth + 'px';
+    th.style.transform = 'translateX(' + on.offsetLeft + 'px)';
+    if (instant) { th.offsetWidth; seg.classList.remove('no-anim'); }
+  }
+  function initSeg(seg, onChange) {
+    seg.addEventListener('click', function (e) {
+      var b = e.target.closest('button'); if (!b) return;
+      seg.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      placeThumb(seg);
+      if (onChange) onChange(b);
+    });
+    placeThumb(seg, true);
+  }
+
+  /* Theme */
+  var themeSeg = document.getElementById('theme-seg');
+  function syncTheme() {
+    var t = root.getAttribute('data-theme');
+    themeSeg.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.v === t ? 'true' : 'false'); });
+  }
+  syncTheme();
+  initSeg(themeSeg, function (b) {
+    root.setAttribute('data-theme', b.dataset.v);
+    try { localStorage.setItem('el-theme', b.dataset.v); } catch (e) {}
+  });
+  initSeg(document.getElementById('demo-seg'));
+  window.addEventListener('resize', function () { document.querySelectorAll('.seg').forEach(function (s) { placeThumb(s, true); }); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { document.querySelectorAll('.seg').forEach(function (s) { placeThumb(s, true); }); });
+
+  /* Copy: the tick shows on the click, before the clipboard answers. */
+  function copyText(text) {
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function (res, rej) {
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy') ? res() : rej(); } catch (e) { rej(e); } finally { ta.remove(); }
+    });
+  }
+  function flash(el, text) {
+    var use = el.querySelector('use'); var label = el.querySelector('span:not(.dot)');
+    var oldIcon = use ? use.getAttribute('href') : null; var oldLabel = label ? label.textContent : null;
+    if (use) use.setAttribute('href', '#i-check');
+    el.classList.add('done');
+    clearTimeout(el._t);
+    copyText(text).catch(function () { if (label) label.textContent = 'Copy failed'; });
+    el._t = setTimeout(function () {
+      if (use) use.setAttribute('href', oldIcon);
+      if (label && oldLabel !== null) label.textContent = oldLabel;
+      el.classList.remove('done');
+    }, 1400);
+  }
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest('[data-copy], [data-copy-target]'); if (!el) return;
+    var text = el.dataset.copy || document.getElementById(el.dataset.copyTarget).textContent;
+    flash(el, text);
+  });
+
+  /* Neutral scale swatches */
+  var L = ['#FBFBFA','#F5F5F4','#EDEDEC','#E5E5E4','#DEDEDD','#D6D6D5','#CACAC9','#B5B5B4','#8A8A89','#737372','#5C5C5B','#111111'];
+  var D = ['#111111','#191919','#232323','#2B2B2B','#333333','#3D3D3D','#4A4A4A','#626262','#737373','#868686','#B4B4B4','#EEEEEE'];
+  function fillScale(id, list) {
+    var host = document.getElementById(id);
+    list.forEach(function (hex, i) {
+      var d = document.createElement('div'); d.className = 'st';
+      d.innerHTML = '<button class="c" style="background:' + hex + '" data-copy="' + hex + '" aria-label="Copy ink-' + (i + 1) + ', ' + hex + '"></button>' +
+        '<span class="n">' + (i + 1) + '</span><span class="h">' + hex.slice(1) + '</span>';
+      host.appendChild(d);
+    });
+  }
+  fillScale('scale-light', L); fillScale('scale-dark', D);
+
+  /* Spacing ladder and control heights */
+  var ladder = document.getElementById('ladder');
+  [2, 4, 6, 8, 12, 16, 20, 24, 32, 48, 64].forEach(function (v) {
+    var s = document.createElement('div'); s.className = 's';
+    s.innerHTML = '<div class="sq" style="width:' + v + 'px;height:' + v + 'px"></div><span class="meta">' + v + '</span>';
+    ladder.appendChild(s);
+  });
+  var heights = document.getElementById('heights');
+  [[44, 'phone'], [36, 'control'], [32, 'compact'], [28, 'pill'], [24, 'inline'], [22, 'icon'], [20, 'badge'], [18, 'key']].forEach(function (h) {
+    var s = document.createElement('div'); s.className = 'h';
+    s.innerHTML = '<div class="bx" style="height:' + h[0] + 'px"></div><span class="meta">' + h[0] + ' ' + h[1] + '</span>';
+    heights.appendChild(s);
+  });
+
+  /* Loading button: label swaps in place */
+  var save = document.getElementById('save-btn');
+  save.addEventListener('click', function () {
+    if (save.dataset.busy) return;
+    save.dataset.busy = '1'; save.setAttribute('aria-busy', 'true');
+    save.innerHTML = '<span class="spinner" aria-hidden="true"></span>Saving…';
+    setTimeout(function () { save.textContent = 'Save'; delete save.dataset.busy; save.removeAttribute('aria-busy'); }, 1600);
+  });
+
+  /* Switch */
+  document.querySelectorAll('.switch').forEach(function (s) {
+    s.addEventListener('click', function () { s.setAttribute('aria-checked', s.getAttribute('aria-checked') === 'true' ? 'false' : 'true'); });
+  });
+
+  /* Menu */
+  var trig = document.getElementById('sort-btn'), menu = document.getElementById('sort-menu');
+  function setMenu(open) {
+    menu.classList.toggle('open', open); trig.setAttribute('aria-expanded', open ? 'true' : 'false');
+    if (open) { var c = menu.querySelector('[aria-checked="true"]'); c && c.focus({ preventScroll: true }); }
+  }
+  trig.addEventListener('click', function (e) { e.stopPropagation(); setMenu(!menu.classList.contains('open')); });
+  menu.addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    menu.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-checked', x === b ? 'true' : 'false'); });
+    document.getElementById('sort-label').textContent = b.textContent;
+    setMenu(false); trig.focus({ preventScroll: true });
+  });
+  menu.addEventListener('keydown', function (e) {
+    var items = Array.prototype.slice.call(menu.querySelectorAll('button')); var i = items.indexOf(document.activeElement);
+    if (e.key === 'ArrowDown') { e.preventDefault(); items[(i + 1) % items.length].focus(); }
+    if (e.key === 'ArrowUp') { e.preventDefault(); items[(i - 1 + items.length) % items.length].focus(); }
+  });
+  document.addEventListener('click', function (e) { if (!menu.contains(e.target)) setMenu(false); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && menu.classList.contains('open')) { setMenu(false); trig.focus(); } });
+
+  /* Toast: one at a time */
+  var toast = document.getElementById('toast'), tt;
+  document.getElementById('toast-btn').addEventListener('click', function () {
+    clearTimeout(tt); toast.classList.add('show');
+    tt = setTimeout(function () { toast.classList.remove('show'); }, 2600);
+  });
+
+  /* Motion demo */
+  var track = document.getElementById('track');
+  document.getElementById('play-btn').addEventListener('click', function () {
+    track.style.setProperty('--travel', (track.clientWidth - 40) + 'px');
+    if (reduce.matches) {
+      var p = track.querySelector('.puck'); p.style.opacity = 0;
+      setTimeout(function () { track.classList.toggle('go'); p.style.opacity = 1; }, 160);
+    } else track.classList.toggle('go');
+  });
+
+  /* Download tokens */
+  document.getElementById('dl-btn').addEventListener('click', function () {
+    var blob = new Blob([document.getElementById('tokens-code').textContent], { type: 'text/css' });
+    var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'enterlabs-ui-tokens.css';
+    document.body.appendChild(a); a.click(); setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  });
+
+  /* Current section in the rail and the phone picker */
+  var links = Array.prototype.slice.call(document.querySelectorAll('#nav a'));
+  var jump = document.getElementById('jump');
+  jump.addEventListener('change', function () { document.getElementById(jump.value).scrollIntoView(); });
+  var sections = links.map(function (a) { return document.querySelector(a.getAttribute('href')); });
+  function current() {
+    var y = window.scrollY + 120, cur = sections[0];
+    sections.forEach(function (s) { if (s.offsetTop <= y) cur = s; });
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 4) cur = sections[sections.length - 1];
+    links.forEach(function (a) { a.setAttribute('aria-current', a.getAttribute('href') === '#' + cur.id ? 'true' : 'false'); });
+    if (jump.value !== cur.id) jump.value = cur.id;
+  }
+  window.addEventListener('scroll', current, { passive: true }); current();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+{
+  "name": "enterlabs-design-systems",
+  "private": true,
+  "scripts": {
+    "build": "python3 src/build2.py && python3 src/build_dist.py",
+    "db:local": "wrangler d1 execute enterlabs-feedback --local --file=schema.sql",
+    "dev": "wrangler pages dev",
+    "deploy": "npm run build && wrangler pages deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

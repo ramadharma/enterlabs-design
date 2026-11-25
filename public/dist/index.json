@@ -1,0 +1,96 @@
+{
+  "name": "Enterlabs design system",
+  "version": "0.3",
+  "updated": "2026-11-25",
+  "site": "https://enterlabs-design-systems.pages.dev",
+  "full": "enterlabs.md",
+  "pages": [
+    {
+      "path": "overview.md",
+      "section": 0,
+      "title": "Overview",
+      "description": "What Enterlabs is, the logo kit and UI layer versions, and where the spec lives."
+    },
+    {
+      "path": "workflow.md",
+      "section": 1,
+      "title": "Workflow",
+      "description": "How to work with the spec: pin the output, start from tokens and components, check, report."
+    },
+    {
+      "path": "brand-and-logo.md",
+      "section": 2,
+      "title": "Brand and logo",
+      "description": "Logo compositions, kit files, clear space, minimum sizes, misuse, inline SVG artwork, favicon wiring."
+    },
+    {
+      "path": "principles.md",
+      "section": 3,
+      "title": "Principles",
+      "description": "The four principles, in priority order."
+    },
+    {
+      "path": "tokens.md",
+      "section": 4,
+      "title": "Tokens",
+      "description": "How tokens work (roles, dark mode, surfaces), the base CSS, neutral steps by job, checked contrast."
+    },
+    {
+      "path": "foundations.md",
+      "section": 5,
+      "title": "Foundations",
+      "description": "Type scale, spacing, radius, elevation, motion, layout, phone rules, icons."
+    },
+    {
+      "path": "colour-roles.md",
+      "section": 6,
+      "title": "Colour roles",
+      "description": "Brand orange (where it goes and never goes), status hues, links, charts, illustration and imagery."
+    },
+    {
+      "path": "components.md",
+      "section": 7,
+      "title": "Components",
+      "description": "The spec of every component: actions, inputs, data display, feedback, overlays, navigation."
+    },
+    {
+      "path": "component-css.md",
+      "section": 8,
+      "title": "Component CSS",
+      "description": "Component CSS, markup recipes and the behaviour the CSS expects."
+    },
+    {
+      "path": "copy.md",
+      "section": 9,
+      "title": "Copy",
+      "description": "Copy rules: sentence case, verbs, ellipsis, locale formats."
+    },
+    {
+      "path": "before-you-ship.md",
+      "section": 10,
+      "title": "Before you ship",
+      "description": "The checklist that must pass before anything ships."
+    },
+    {
+      "path": "review-mode.md",
+      "section": 11,
+      "title": "Review mode",
+      "description": "How to audit existing work against the spec."
+    }
+  ],
+  "files": [
+    {
+      "path": "tokens.css",
+      "description": "Complete token file: light, dark, phone, surfaces."
+    },
+    {
+      "path": "base.css",
+      "description": "Base CSS to paste once, before the components."
+    },
+    {
+      "path": "components.css",
+      "description": "Core component CSS (buttons, fields, choices, switch, badge, table, menu, modal, toast...)."
+    }
+  ],
+  "assets": "../assets/brand/"
+}
