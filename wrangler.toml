@@ -5,4 +5,4 @@ pages_build_output_dir = "public"
 [[d1_databases]]
 binding = "DB"
 database_name = "enterlabs-feedback"
-database_id = "REPLACE_WITH_ID_FROM_wrangler_d1_create"
+database_id = "db32993f-3a9f-4561-bd88-81438d3b060e"
